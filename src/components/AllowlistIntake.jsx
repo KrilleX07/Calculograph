@@ -119,8 +119,8 @@ export default function AllowlistIntake() {
   const completedMissionsCount = Object.values(missions).filter((m) => m.completed).length;
   const allMissionsDone = completedMissionsCount === 3;
 
-  // Step 1: Validate identity, check Twitter duplicate and referral code
-  const handleStep1Submit = async (e) => {
+  // Step 1: Validate identity and immediately advance to missions
+  const handleStep1Submit = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     setErrorMsg('');
     sound.playClick();
@@ -141,36 +141,8 @@ export default function AllowlistIntake() {
       return;
     }
 
-    setValidatingCode(true);
-
-    try {
-      const isTwitterTaken = await checkTwitterExists(cleanTwitter);
-      if (isTwitterTaken) {
-        setValidatingCode(false);
-        setErrorMsg(`The X account ${cleanTwitter} is already registered on the ledger!`);
-        return;
-      }
-
-      if (inviteCode && inviteCode.trim()) {
-        const codeCheck = await validateInviteCode(inviteCode.trim());
-        setInviteCodeStatus(codeCheck);
-
-        if (!codeCheck.valid) {
-          setValidatingCode(false);
-          setErrorMsg(codeCheck.message || 'Invalid invite code.');
-          return;
-        }
-      }
-
-      sound.playSuccess();
-      setCurrentStep(2);
-    } catch (err) {
-      console.warn('Step 1 validation warning:', err);
-      sound.playSuccess();
-      setCurrentStep(2);
-    } finally {
-      setValidatingCode(false);
-    }
+    sound.playSuccess();
+    setCurrentStep(2);
   };
 
   // Step 2 Proceed to Wallet
@@ -461,17 +433,9 @@ export default function AllowlistIntake() {
             {/* Action Button */}
             <button
               type="submit"
-              disabled={validatingCode}
-              className="calctrons-btn w-full py-4 px-6 text-sm flex items-center justify-center gap-2"
+              className="calctrons-btn w-full py-4 px-6 text-sm flex items-center justify-center gap-2 cursor-pointer"
             >
-              {validatingCode ? (
-                <>
-                  <Loader2 size={16} className="animate-spin" />
-                  <span>VERIFYING CODE...</span>
-                </>
-              ) : (
-                <span>ENTER THE PROTOCOL &rarr;</span>
-              )}
+              <span>ENTER THE PROTOCOL &rarr;</span>
             </button>
           </form>
         )}
