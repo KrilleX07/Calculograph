@@ -145,9 +145,13 @@ export default function AllowlistPass({ data, onReset }) {
           <div className="flex justify-between items-center border-b-2 border-[#3c2c1c] pb-3.5">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 rounded border border-[#d6c9ab] bg-[#c05810] text-[#efe7d6] flex items-center justify-center">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <polyline points="12 6 12 12 16 14" />
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 2h10v5H7z" />
+                  <rect x="4" y="7" width="16" height="3" rx="1" />
+                  <path d="M3 10h18l-1.5 11H4.5L3 10z" />
+                  <circle cx="8" cy="14" r="0.75" fill="currentColor" />
+                  <circle cx="12" cy="14" r="0.75" fill="currentColor" />
+                  <circle cx="16" cy="14" r="0.75" fill="currentColor" />
                 </svg>
               </div>
               <span className="font-bold text-xs uppercase tracking-[3px] text-[#efe7d6]">

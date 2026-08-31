@@ -22,13 +22,22 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
             onClick={() => sound.playClick()}
             className="flex items-center gap-2.5 font-mono font-bold text-lg sm:text-xl tracking-[3px] sm:tracking-[4px] uppercase text-[#3c2c1c] hover:opacity-85 transition-opacity group"
           >
-            {/* Precision Mechanical Chronometer Emblem Icon */}
+            {/* Minimalist Mechanical Typewriter / Calculating Machine Emblem */}
             <div className="w-8 h-8 rounded border-2 border-[#3c2c1c] bg-[#c05810] text-[#efe7d6] flex items-center justify-center shadow-[2px_2px_rgba(0,0,0,0.3)] group-hover:bg-[#d46313] transition-colors">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="9" />
-                <polyline points="12 6 12 12 16 14" />
-                <path d="M12 3V1" />
-                <path d="M9 1h6" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {/* Paper sheet at top */}
+                <path d="M7 2h10v5H7z" />
+                <line x1="9" y1="4.5" x2="15" y2="4.5" />
+                {/* Typewriter platen roller */}
+                <rect x="4" y="7" width="16" height="3" rx="1" />
+                {/* Typewriter chassis */}
+                <path d="M3 10h18l-1.5 11H4.5L3 10z" />
+                {/* Key Matrix Dots */}
+                <circle cx="8" cy="14" r="0.75" fill="currentColor" />
+                <circle cx="12" cy="14" r="0.75" fill="currentColor" />
+                <circle cx="16" cy="14" r="0.75" fill="currentColor" />
+                <circle cx="10" cy="18" r="0.75" fill="currentColor" />
+                <circle cx="14" cy="18" r="0.75" fill="currentColor" />
               </svg>
             </div>
             <span>CALCULOGRAPH</span>
@@ -63,15 +72,12 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
         </div>
       </header>
 
-      {/* Secondary Statusbar: Dark Ink Terminal Line */}
+      {/* Secondary Statusbar: Rock-solid Dark Ink Terminal Line (Zero Jitter) */}
       <div className="w-full bg-[#2a1e13] border-b-2 border-[#17130e] text-[#e3d8c0] py-2 px-4 font-mono text-[10px] sm:text-[11px] font-bold tracking-[1.5px] uppercase">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-3 overflow-x-auto whitespace-nowrap scrollbar-none pl-1">
-          <div className="flex items-center gap-2.5 flex-shrink-0">
-            {/* Glowing Phosphor Dot with dedicated padding so it's never clipped on left */}
-            <span className="relative flex h-3 w-3 items-center justify-center">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#46e35f] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#46e35f] shadow-[0_0_6px_#46e35f]"></span>
-            </span>
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-3 overflow-hidden whitespace-nowrap select-none">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Static Phosphor Dot with Smooth Glow Animation (Zero layout jitter) */}
+            <div className="w-2.5 h-2.5 rounded-full bg-[#46e35f] shadow-[0_0_8px_#46e35f] flex-shrink-0 animate-pulse"></div>
             <span className="text-[#46e35f] tracking-[1.5px]">OPERATIONAL</span>
           </div>
           <span className="text-[#8d7c66]">|</span>
