@@ -390,6 +390,7 @@ export default function AllowlistIntake() {
                     <img
                       src={avatarUrl}
                       alt={twitterUsername}
+                      referrerPolicy="no-referrer"
                       onError={() => setAvatarUrl(null)}
                       className="w-full h-full object-cover"
                     />

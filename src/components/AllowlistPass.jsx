@@ -158,7 +158,7 @@ export default function AllowlistPass({ data, onReset }) {
                 <img
                   src={data.avatarUrl || `/favicon.png`}
                   alt={cleanTwitter}
-                  crossOrigin="anonymous"
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.onerror = null;
