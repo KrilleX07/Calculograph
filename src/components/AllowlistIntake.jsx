@@ -85,7 +85,14 @@ export default function AllowlistIntake() {
 
   // Handle Mission Click with 5-second countdown timer
   const handleMissionClick = (missionKey, externalUrl) => {
-    if (missions[missionKey].completed || missions[missionKey].countdown > 0) return;
+    // If already verified, clicking anywhere still opens Twitter!
+    if (missions[missionKey].completed) {
+      try { sound.playClick(); } catch (err) {}
+      window.open(externalUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (missions[missionKey].countdown > 0) return;
 
     sound.playClick();
     window.open(externalUrl, '_blank', 'noopener,noreferrer');
@@ -476,7 +483,7 @@ export default function AllowlistIntake() {
               onClick={() => handleMissionClick('follow', 'https://twitter.com/intent/follow?screen_name=Calculograph')}
               className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.follow.completed
-                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e]'
+                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e] hover:bg-[#c2f2cb] active:scale-[0.99]'
                   : 'bg-[#e3d8c0] border-[#3c2c1c] hover:bg-[#d6c9ab]'
               }`}
             >
@@ -511,7 +518,7 @@ export default function AllowlistIntake() {
               onClick={() => handleMissionClick('repost', 'https://x.com/Calculograph')}
               className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.repost.completed
-                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e]'
+                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e] hover:bg-[#c2f2cb] active:scale-[0.99]'
                   : 'bg-[#e3d8c0] border-[#3c2c1c] hover:bg-[#d6c9ab]'
               }`}
             >
@@ -546,7 +553,7 @@ export default function AllowlistIntake() {
               onClick={() => handleMissionClick('tag', `https://twitter.com/intent/tweet?text=${encodeURIComponent('Securing my Genesis clearance on the @Calculograph desk! ⏳⚡\n\nTagging 2 operators: @ @\n\n#Calculograph')}`)}
               className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.tag.completed
-                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e]'
+                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e] hover:bg-[#c2f2cb] active:scale-[0.99]'
                   : 'bg-[#e3d8c0] border-[#3c2c1c] hover:bg-[#d6c9ab]'
               }`}
             >
