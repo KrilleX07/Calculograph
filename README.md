@@ -1,6 +1,6 @@
 # ⏳ CALCULOGRAPH — Official Allowlist Intake & Pass Portal
 
-Official Allowlist intake portal for **Calculograph (3,333 calculating machines on Robinhood Chain)** in antique Calctrons physical mechanical ledger style.
+Official Allowlist intake portal for **Calculograph (4,567 calculating machines on HyperEVM)** in antique Calctrons physical mechanical ledger style.
 
 ---
 
@@ -10,7 +10,7 @@ Official Allowlist intake portal for **Calculograph (3,333 calculating machines 
 - **3-Step Linear Intake Protocol**:
   - `01 IDENTITY`: X (Twitter) verification with duplicate checking and live avatar resolution.
   - `02 MISSIONS`: 3 interactive X clearance tasks (Follow, Repost, Tag 2 Operators) with 5-second countdown verifier.
-  - `03 WALLET`: EVM address submission on Robinhood Chain with strict duplicate checking in Supabase.
+  - `03 WALLET`: EVM address submission on HyperEVM with strict duplicate checking in Supabase.
 - **Permanent Chrono Pass Certificate**:
   - Automatically generated high-contrast operator pass.
   - One-click PNG image download with `html-to-image`.

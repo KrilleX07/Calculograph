@@ -113,7 +113,7 @@ export default function AllowlistPass({ data, onReset }) {
   };
 
   const tweetShareText = encodeURIComponent(
-    `Just secured my official Calculograph Pass #${spotNumber} for @Calculograph on Robinhood Chain! ⏳⚡\n\nApply with my code: ${data.myRefCode}\n\nRegister: ${data.refLink}`
+    `Just secured my official Calculograph Pass #${spotNumber} for @Calculograph on HyperEVM! ⏳⚡\n\nApply with my code: ${data.myRefCode}\n\nRegister: ${data.refLink}`
   );
 
   return (
@@ -225,7 +225,7 @@ export default function AllowlistPass({ data, onReset }) {
 
           {/* Card Footer */}
           <div className="flex justify-between items-center text-[10px] font-bold text-[#a89782] uppercase tracking-wider">
-            <span>ROBINHOOD CHAIN &bull; 3,333 ED.</span>
+            <span>HYPEREVM &bull; 4,567 ED.</span>
             <span className="text-[#c05810] font-bold">X.COM/CALCULOGRAPH</span>
           </div>
 

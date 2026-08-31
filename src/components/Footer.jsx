@@ -13,7 +13,7 @@ export default function Footer() {
           </span>
           <span className="hidden sm:inline text-[#8d7c66]">|</span>
           <span className="text-[11px] text-[#d6c9ab]">
-            © 2026 The Adding Room &bull; Robinhood Chain
+            © 2026 The Adding Room &bull; HyperEVM
           </span>
         </div>
 

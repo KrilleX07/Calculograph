@@ -64,9 +64,9 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
             <span className="text-[#46e35f] tracking-[1.5px]">OPERATIONAL</span>
           </div>
           <span className="text-[#8d7c66]">|</span>
-          <span className="hidden sm:inline">3,333 CALCULATING MACHINES</span>
+          <span className="hidden sm:inline">4,567 CALCULATING MACHINES</span>
           <span className="hidden sm:inline text-[#8d7c66]">|</span>
-          <span>ROBINHOOD CHAIN</span>
+          <span>HYPEREVM</span>
           <span className="text-[#8d7c66]">|</span>
           <span className="text-[#f2c14b] border border-[#f2c14b] px-1.5 py-0.5 text-[9px]">
             GENESIS INTAKE
@@ -82,13 +82,13 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
           <span className="mx-4 text-[#f2c14b]">▲ PREVENT DUPLICATES</span>
           <span className="mx-4">◆ VERIFIED CHRONO PASS</span>
           <span className="mx-4 text-[#efe7d6]">★ PERMANENT TAPE ALLOCATION</span>
-          <span className="mx-4 text-[#c05810]">▼ ROBINHOOD L2 ENGINE</span>
+          <span className="mx-4 text-[#c05810]">▼ HYPEREVM ENGINE</span>
           <span className="mx-4">◆ CALCULOGRAPH MEMORY PROTOCOL</span>
           <span className="mx-4 text-[#efe7d6]">★ 10 REGISTERS (M1-M10)</span>
           <span className="mx-4 text-[#f2c14b]">▲ PREVENT DUPLICATES</span>
           <span className="mx-4">◆ VERIFIED CHRONO PASS</span>
           <span className="mx-4 text-[#efe7d6]">★ PERMANENT TAPE ALLOCATION</span>
-          <span className="mx-4 text-[#c05810]">▼ ROBINHOOD L2 ENGINE</span>
+          <span className="mx-4 text-[#c05810]">▼ HYPEREVM ENGINE</span>
         </div>
       </div>
 

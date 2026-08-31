@@ -282,7 +282,7 @@ export default function AllowlistIntake() {
           CALCULOGRAPH
         </h1>
         <p className="text-xs text-[#8d7c66] max-w-md mx-auto leading-relaxed">
-          3,333 calculating machines on Robinhood Chain. Complete 3 verification steps to secure your permanent ledger pass.
+          4,567 calculating machines on HyperEVM. Complete 3 verification steps to secure your permanent ledger pass.
         </p>
       </div>
 
@@ -549,7 +549,7 @@ export default function AllowlistIntake() {
                   2. Like & Repost Genesis Machine Post
                 </div>
                 <div className="text-[11px] text-[#6d5b44]">
-                  Broadcast the 4,444 calculating machines dynasty
+                  Broadcast the 4,567 calculating machines dynasty
                 </div>
               </div>
 
@@ -661,7 +661,7 @@ export default function AllowlistIntake() {
             {/* Wallet Address input */}
             <div className="space-y-2">
               <label className="block text-xs font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
-                EVM WALLET ADDRESS (ROBINHOOD / ETH)
+                EVM WALLET ADDRESS (HYPEREVM / ETH)
               </label>
               <input
                 type="text"
