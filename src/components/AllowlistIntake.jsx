@@ -299,43 +299,45 @@ export default function AllowlistIntake() {
           {completedData ? '01 IDENTITY ✓' : '01 IDENTITY'}
         </button>
 
-        {/* Tab 2 */}
+        {/* Tab 2: Strictly locked until Step 1 identity validation passes */}
         <button
           type="button"
-          disabled={!twitterUsername && !completedData}
-          onClick={() => {
-            if (completedData || !twitterUsername) return;
-            sound.playClick();
-            setCurrentStep(2);
+          onClick={async () => {
+            if (completedData) return;
+            if (currentStep === 1) {
+              await handleStep1Submit();
+            } else if (currentStep > 2) {
+              sound.playClick();
+              setCurrentStep(2);
+            }
           }}
           className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
             completedData || currentStep === 2
               ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
-              : allMissionsDone || currentStep > 2
+              : currentStep > 2
               ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
-              : 'border-transparent text-[#6d5b44] cursor-not-allowed'
+              : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-50'
           }`}
         >
           {completedData ? '02 MISSIONS ✓' : '02 MISSIONS'}
         </button>
 
-        {/* Tab 3 */}
+        {/* Tab 3: Strictly locked until 3/3 missions are cleared */}
         <button
           type="button"
-          disabled={!allMissionsDone && !completedData}
+          disabled={!completedData && !allMissionsDone}
           onClick={() => {
-            if (completedData || !allMissionsDone) return;
-            sound.playClick();
-            setCurrentStep(3);
+            if (completedData || allMissionsDone) {
+              sound.playClick();
+              setCurrentStep(3);
+            }
           }}
           className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
             completedData || currentStep === 3
               ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
-              : currentStep > 3
-              ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c]'
-              : allMissionsDone && currentStep > 1
-              ? 'bg-transparent text-[#efe7d6] border-dashed border-[#8d7c66] cursor-pointer'
-              : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-60'
+              : allMissionsDone
+              ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
+              : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-50'
           }`}
         >
           {completedData ? '03 WALLET ✓' : '03 WALLET'}
