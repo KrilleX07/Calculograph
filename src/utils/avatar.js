@@ -11,12 +11,12 @@ export async function fetchTwitterAvatar(username) {
     return avatarCache[clean];
   }
 
-  // 1. Try Vercel Serverless Function
+  // 1. Try API Function
   try {
     const res = await fetch(`/api/avatar?username=${clean}`);
     if (res.ok) {
       const data = await res.json();
-      if (data?.avatarUrl && data.avatarUrl.includes('twimg.com')) {
+      if (data?.avatarUrl) {
         avatarCache[clean] = data.avatarUrl;
         return data.avatarUrl;
       }
