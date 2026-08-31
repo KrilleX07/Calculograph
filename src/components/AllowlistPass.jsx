@@ -16,38 +16,38 @@ export default function AllowlistPass({ data, onReset }) {
   const spotNumber = data.spotNumber || '0001';
   const formattedDate = new Date().toISOString().split('T')[0];
 
-  // Exact waveform capsule sequence
+  // Vintage mechanical punchcard pattern
   const barcodePills = [
-    { h: 'h-6', bg: 'bg-[#00F58C]' }, // green
-    { h: 'h-3', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-8', bg: 'bg-[#1E293B]' }, // dark tall
-    { h: 'h-2', bg: 'bg-[#1E293B]' }, // dot
-    { h: 'h-6', bg: 'bg-[#00F58C]' }, // green
-    { h: 'h-7', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-3', bg: 'bg-[#1E293B]' }, // dot
-    { h: 'h-10', bg: 'bg-[#00E5FF]' }, // cyan tall
-    { h: 'h-6', bg: 'bg-[#00F58C]' }, // green
-    { h: 'h-2', bg: 'bg-[#1E293B]' }, // dot
-    { h: 'h-7', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-9', bg: 'bg-[#1E293B]' }, // dark tall
-    { h: 'h-5', bg: 'bg-[#00F58C]' }, // green
-    { h: 'h-7', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-2', bg: 'bg-[#00E5FF]' }, // cyan dot
-    { h: 'h-7', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-6', bg: 'bg-[#00F58C]' }, // green
-    { h: 'h-10', bg: 'bg-[#1E293B]' }, // dark tall
-    { h: 'h-3', bg: 'bg-[#1E293B]' }, // dot
-    { h: 'h-6', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-2', bg: 'bg-[#00F58C]' }, // green dot
-    { h: 'h-10', bg: 'bg-[#00E5FF]' }, // cyan tall
-    { h: 'h-7', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-8', bg: 'bg-[#1E293B]' }, // dark tall
-    { h: 'h-5', bg: 'bg-[#00F58C]' }, // green
-    { h: 'h-10', bg: 'bg-[#1E293B]' }, // dark tall
-    { h: 'h-7', bg: 'bg-[#1E293B]' }, // dark
-    { h: 'h-2', bg: 'bg-[#1E293B]' }, // dot
-    { h: 'h-6', bg: 'bg-[#00F58C]' }, // green
-    { h: 'h-7', bg: 'bg-[#1E293B]' }, // dark
+    { h: 'h-6', bg: 'bg-[#c05810]' }, // amber
+    { h: 'h-3', bg: 'bg-[#3c2c1c]' }, // dark ink
+    { h: 'h-8', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-2', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-6', bg: 'bg-[#46e35f]' }, // phosphor green
+    { h: 'h-7', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-3', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-10', bg: 'bg-[#f2c14b]' }, // gold
+    { h: 'h-6', bg: 'bg-[#46e35f]' },
+    { h: 'h-2', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-7', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-9', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-5', bg: 'bg-[#c05810]' },
+    { h: 'h-7', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-2', bg: 'bg-[#f2c14b]' },
+    { h: 'h-7', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-6', bg: 'bg-[#46e35f]' },
+    { h: 'h-10', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-3', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-6', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-2', bg: 'bg-[#c05810]' },
+    { h: 'h-10', bg: 'bg-[#f2c14b]' },
+    { h: 'h-7', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-8', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-5', bg: 'bg-[#46e35f]' },
+    { h: 'h-10', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-7', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-2', bg: 'bg-[#3c2c1c]' },
+    { h: 'h-6', bg: 'bg-[#c05810]' },
+    { h: 'h-7', bg: 'bg-[#3c2c1c]' },
   ];
 
   const handleDownload = async () => {
@@ -60,8 +60,8 @@ export default function AllowlistPass({ data, onReset }) {
       
       const dataUrl = await toPng(passRef.current, {
         cacheBust: true,
-        pixelRatio: 3, // Ultra-sharp 3x retina HD
-        backgroundColor: '#04060A',
+        pixelRatio: 3,
+        backgroundColor: '#17130e',
         style: {
           transform: 'none',
           margin: '0',
@@ -92,49 +92,48 @@ export default function AllowlistPass({ data, onReset }) {
   };
 
   const tweetShareText = encodeURIComponent(
-    `Just secured my official Calculograph Pass #${spotNumber} for @Calculograph! ⏳⚡\n\nApply with my code: ${data.myRefCode}\n\nRegister: ${data.refLink}`
+    `Just secured my official Calculograph Pass #${spotNumber} for @Calculograph on Robinhood Chain! ⏳⚡\n\nApply with my code: ${data.myRefCode}\n\nRegister: ${data.refLink}`
   );
 
   return (
-    <div className="space-y-8 animate-in zoom-in-95 duration-300 max-w-md mx-auto">
+    <div className="space-y-8 animate-in zoom-in-95 duration-200 max-w-md mx-auto font-mono text-[#3c2c1c]">
       
       {/* Title */}
-      <div className="text-center space-y-1.5">
-        <div className="font-pixel text-[9px] text-[#00F58C] uppercase tracking-widest">
-          ACCESS GRANTED
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+      <div className="text-center space-y-1">
+        <p className="text-[11px] font-bold tracking-[2px] uppercase text-[#c05810]">
+          MEMORIZATION COMPLETE &bull; DESK CLEARED
+        </p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#3c2c1c] tracking-[2px] uppercase">
           Welcome, {cleanTwitter}
         </h2>
-        <p className="font-mono text-xs text-slate-400">
-          Keep the pass — it’s your precision proof of entry.
+        <p className="text-xs text-[#6d5b44]">
+          Keep your physical certificate — it’s your permanent proof of entry.
         </p>
       </div>
 
-      {/* ===================== DIGITAL CHRONO PASS CARD ===================== */}
-      <div className="p-1 rounded-[2.2rem] bg-[#04060A]">
+      {/* ===================== VINTAGE CALCTRON PHYSICAL CERTIFICATE ===================== */}
+      <div className="p-1 rounded-sm bg-[#17130e]">
         <div
           ref={passRef}
-          className="rounded-[2rem] p-7 sm:p-8 bg-gradient-to-b from-[#090E17] via-[#050810] to-[#030508] border-2 border-[#1E293B] shadow-2xl relative space-y-6 text-slate-100 select-none overflow-hidden"
+          className="p-7 sm:p-8 bg-[#efe7d6] border-4 border-[#3c2c1c] shadow-[8px_10px_rgba(0,0,0,0.5)] relative space-y-6 select-none overflow-hidden"
+          style={{
+            boxShadow: 'inset 0 0 0 5px #efe7d6, 8px 10px rgba(0,0,0,0.55)',
+          }}
         >
-          {/* Glowing ambient gradient */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-28 bg-[#00F58C]/10 blur-3xl pointer-events-none"></div>
-
-          {/* Card Header */}
-          <div className="flex justify-between items-center border-b border-[#1E293B] pb-4">
-            <span className="font-pixel text-[10px] text-[#00F58C] uppercase tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00F58C] inline-block animate-ping"></span>
-              CALCULOGRAPH
+          {/* Top Pass Header */}
+          <div className="flex justify-between items-baseline border-b-2 border-[#3c2c1c] pb-3.5">
+            <span className="font-bold text-xs uppercase tracking-[3px] text-[#3c2c1c]">
+              CALC<span className="text-[#c05810]">ULOGRAPH</span>
             </span>
-            <span className="font-mono text-[10px] text-slate-500 uppercase tracking-widest">
-              ALLOWLIST PASS
+            <span className="text-[10px] font-bold text-[#6d5b44] uppercase tracking-[1.5px]">
+              CHRONO PASS &bull; PH.1
             </span>
           </div>
 
-          {/* Avatar + Badge Section */}
+          {/* Avatar Section */}
           <div className="flex flex-col items-center text-center space-y-3 pt-1">
             <div className="relative">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-[#00F58C] bg-black shadow-lg shadow-[#00F58C]/20 flex items-center justify-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded border-4 border-[#3c2c1c] bg-[#e3d8c0] shadow-[4px_5px_rgba(0,0,0,0.3)] overflow-hidden flex items-center justify-center">
                 <img
                   src={data.avatarUrl || `/favicon.png`}
                   alt={cleanTwitter}
@@ -146,71 +145,67 @@ export default function AllowlistPass({ data, onReset }) {
                   }}
                 />
               </div>
-              {/* Round initial badge */}
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-[#0D1522] border-2 border-[#00F58C] flex items-center justify-center font-bold text-white text-xs shadow-md">
+              {/* Badge */}
+              <div className="absolute -bottom-2 -right-2 w-7 h-7 bg-[#c05810] border-2 border-[#3c2c1c] text-[#efe7d6] flex items-center justify-center font-bold text-xs shadow-md">
                 {firstLetter}
               </div>
             </div>
 
             <div className="space-y-0.5">
-              <div className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              <div className="text-xl sm:text-2xl font-bold text-[#3c2c1c] tracking-tight">
                 {cleanTwitter}
               </div>
-              <div className="font-pixel text-[8px] text-slate-400 uppercase tracking-widest">
-                VERIFIED OPERATOR
+              <div className="text-[9px] font-bold text-[#c05810] uppercase tracking-[2px]">
+                VERIFIED MACHINE OPERATOR
               </div>
             </div>
           </div>
 
-          {/* Middle Highlight Box: Spot # + Date */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#04060A] border border-[#00F58C]/30 flex justify-between items-center shadow-inner">
-            <div className="space-y-1">
-              <span className="block font-mono text-[9px] text-slate-400 uppercase tracking-wider">
-                ALLOWLIST SPOT
+          {/* Dark Mechanical Highlight Box: Spot # + Date */}
+          <div className="p-4 rounded bg-[#0d0b08] border-2 border-[#3c2c1c] flex justify-between items-center text-[#efe7d6] shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
+            <div className="space-y-0.5">
+              <span className="block text-[9px] font-bold text-[#8d7c66] uppercase tracking-[1.5px]">
+                CALCULOGRAPH SPOT
               </span>
-              <span className="font-mono text-2xl sm:text-3xl text-[#00F58C] font-extrabold tracking-tight">
+              <span className="text-2xl sm:text-3xl font-extrabold text-[#46e35f] tracking-tight text-shadow">
                 #{spotNumber}
               </span>
             </div>
 
-            <div className="space-y-1 text-right">
-              <span className="block font-mono text-[9px] text-slate-400 uppercase tracking-wider">
-                ISSUED
+            <div className="space-y-0.5 text-right">
+              <span className="block text-[9px] font-bold text-[#8d7c66] uppercase tracking-[1.5px]">
+                DATE RECORDED
               </span>
-              <span className="font-mono text-xs sm:text-sm text-slate-200 font-semibold">
+              <span className="text-xs sm:text-sm font-bold text-[#f2c14b]">
                 {formattedDate}
               </span>
             </div>
           </div>
 
           {/* Wallet Details */}
-          <div className="space-y-1">
-            <span className="block font-mono text-[9px] text-slate-500 uppercase tracking-wider">
-              WALLET
+          <div className="space-y-1 border-t-2 border-[#d6c9ab] pt-3">
+            <span className="block text-[9px] font-bold text-[#6d5b44] uppercase tracking-[1.5px]">
+              ASSIGNED EVM WALLET
             </span>
-            <span className="font-mono text-sm text-white font-bold tracking-wider">
+            <span className="text-sm font-bold text-[#3c2c1c] tracking-wider">
               {shortenedWallet}
             </span>
           </div>
 
-          {/* Glowing Cyber Waveform Capsule Barcode */}
-          <div className="py-2 flex items-center justify-between gap-1 h-12">
+          {/* Vintage Punchcard Waveform */}
+          <div className="py-1 flex items-center justify-between gap-1 h-10 border-y-2 border-[#d6c9ab]">
             {barcodePills.map((pill, i) => (
               <div
                 key={i}
-                className={`w-1.5 sm:w-2 rounded-full ${pill.h} ${pill.bg} transition-all`}
+                className={`w-1.5 rounded-sm ${pill.h} ${pill.bg}`}
               ></div>
             ))}
           </div>
 
           {/* Card Footer */}
-          <div className="flex justify-between items-center border-t border-[#1E293B] pt-4 font-mono text-[9px] text-slate-500">
-            <span className="uppercase tracking-widest">
-              CALCULOGRAPH • PHASE 1
-            </span>
-            <span className="text-[#00F58C] uppercase tracking-wider font-semibold">
-              X.COM/CALCULOGRAPH
-            </span>
+          <div className="flex justify-between items-center text-[9px] font-bold text-[#6d5b44] uppercase tracking-wider">
+            <span>ROBINHOOD CHAIN &bull; 1,000 ED.</span>
+            <span className="text-[#c05810]">X.COM/CALCULOGRAPH</span>
           </div>
 
         </div>
@@ -224,16 +219,16 @@ export default function AllowlistPass({ data, onReset }) {
           type="button"
           onClick={handleDownload}
           disabled={downloading}
-          className="py-3.5 px-4 rounded-xl bg-[#00F58C] hover:bg-[#25FF9C] text-black font-pixel text-[10px] uppercase tracking-wider shadow-lg shadow-[#00F58C]/20 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2 cursor-pointer"
+          className="calctrons-btn-phosphor py-3.5 px-4 text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"
         >
           {downloading ? (
             <>
-              <Loader2 size={14} className="animate-spin" />
+              <Loader2 size={15} className="animate-spin" />
               <span>SAVING...</span>
             </>
           ) : (
             <>
-              <Download size={14} />
+              <Download size={15} />
               <span>DOWNLOAD PASS</span>
             </>
           )}
@@ -245,24 +240,24 @@ export default function AllowlistPass({ data, onReset }) {
           target="_blank"
           rel="noreferrer"
           onClick={() => sound.playCash()}
-          className="py-3.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-pixel text-[10px] uppercase tracking-wider border border-white/15 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2"
+          className="calctrons-btn py-3.5 px-4 text-xs font-bold flex items-center justify-center gap-2"
         >
-          <Share2 size={14} />
+          <Share2 size={15} />
           <span>SHARE ON X</span>
         </a>
 
       </div>
 
       {/* ===================== REFERRAL LINK BOX ===================== */}
-      <div className="p-5 rounded-2xl bg-[#090D16] border border-[#1E293B] text-left space-y-3 shadow-lg">
+      <div className="p-5 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-left space-y-3 shadow-[3px_4px_rgba(0,0,0,0.25)]">
         <div className="flex justify-between items-center">
-          <span className="font-pixel text-[9px] text-slate-400 uppercase tracking-wider">
-            YOUR INVITE LINK
+          <span className="text-[10px] font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
+            YOUR INVITE REFERRAL LINK
           </span>
           <button
             type="button"
             onClick={() => copyToClipboard(data.myRefCode, 'code')}
-            className="font-pixel text-[9px] text-[#00E5FF] hover:underline flex items-center gap-1"
+            className="text-[10px] font-bold text-[#c05810] hover:underline"
           >
             {copiedCode ? 'COPIED CODE!' : `CODE: ${data.myRefCode}`}
           </button>
@@ -272,19 +267,19 @@ export default function AllowlistPass({ data, onReset }) {
           <input
             readOnly
             value={data.refLink}
-            className="w-full px-3 py-2.5 rounded-lg bg-black border border-white/10 text-slate-300 font-mono text-xs truncate focus:outline-none"
+            className="w-full px-3 py-2.5 bg-[#efe7d6] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-xs truncate focus:outline-none"
           />
           <button
             type="button"
             onClick={() => copyToClipboard(data.refLink, 'link')}
-            className="px-4 py-2.5 rounded-lg bg-[#00F58C] hover:bg-[#25FF9C] text-black font-pixel text-[9px] uppercase whitespace-nowrap flex items-center gap-1 transition"
+            className="calctrons-btn px-4 py-2 text-[10px] whitespace-nowrap flex items-center gap-1"
           >
             <Copy size={12} />
             <span>{copiedLink ? 'COPIED!' : 'COPY'}</span>
           </button>
         </div>
 
-        <p className="font-mono text-[11px] text-slate-500 leading-relaxed">
+        <p className="text-[11px] text-[#6d5b44] leading-relaxed">
           Every operator who registers through your link secures your priority tier.
         </p>
       </div>
@@ -294,7 +289,7 @@ export default function AllowlistPass({ data, onReset }) {
         <button
           type="button"
           onClick={onReset}
-          className="font-pixel text-[9px] text-slate-600 hover:text-slate-400 uppercase tracking-widest transition hover:underline"
+          className="text-[10px] font-bold text-[#8d7c66] hover:text-[#3c2c1c] uppercase tracking-[1.5px] transition underline"
         >
           [ REGISTER ANOTHER WALLET ]
         </button>

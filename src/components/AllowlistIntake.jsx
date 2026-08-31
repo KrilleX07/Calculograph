@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Copy, Share2, ExternalLink, ArrowRight, Loader2, Sparkles, AlertCircle, ShieldAlert, CheckCircle2, User } from 'lucide-react';
+import { Check, Copy, Share2, ArrowRight, Loader2, AlertCircle, ShieldAlert, CheckCircle2, User } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { registerWhitelistUser, validateInviteCode, checkTwitterExists, checkWalletExists } from '../utils/supabase';
 import { fetchTwitterAvatar } from '../utils/avatar';
@@ -11,7 +11,7 @@ export default function AllowlistIntake() {
   const [twitterUsername, setTwitterUsername] = useState('');
   const [inviteCode, setInviteCode] = useState('');
   const [validatingCode, setValidatingCode] = useState(false);
-  const [inviteCodeStatus, setInviteCodeStatus] = useState(null); // { valid: true/false, message }
+  const [inviteCodeStatus, setInviteCodeStatus] = useState(null);
 
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [avatarLoading, setAvatarLoading] = useState(false);
@@ -136,7 +136,6 @@ export default function AllowlistIntake() {
     }
 
     const handleBody = cleanTwitter.slice(1);
-    // Strict Latin-only alphanumeric + underscore check (no Cyrillic, no special chars)
     if (!/^[a-zA-Z0-9_]{1,30}$/.test(handleBody)) {
       setErrorMsg('X (Twitter) handle must only contain Latin letters (a-z, A-Z), numbers, and underscores (_).');
       return;
@@ -144,15 +143,13 @@ export default function AllowlistIntake() {
 
     setValidatingCode(true);
 
-    // Check if X handle is already registered in Supabase
     const isTwitterTaken = await checkTwitterExists(cleanTwitter);
     if (isTwitterTaken) {
       setValidatingCode(false);
-      setErrorMsg(`The X account ${cleanTwitter} is already registered on the Allowlist!`);
+      setErrorMsg(`The X account ${cleanTwitter} is already registered on the ledger!`);
       return;
     }
 
-    // Validate invite code if entered
     if (inviteCode && inviteCode.trim()) {
       const codeCheck = await validateInviteCode(inviteCode.trim());
       setInviteCodeStatus(codeCheck);
@@ -169,7 +166,7 @@ export default function AllowlistIntake() {
     setCurrentStep(2);
   };
 
-  // Step 2 Proceed to Wallet (Hard locked until 3/3 missions)
+  // Step 2 Proceed to Wallet
   const handleStep2Proceed = () => {
     if (!allMissionsDone) {
       setErrorMsg('Please complete all 3 missions before proceeding.');
@@ -188,7 +185,6 @@ export default function AllowlistIntake() {
 
     const cleanWallet = walletAddress.trim().toLowerCase();
 
-    // Strict EVM address validation (0x + 40 hex characters)
     if (!/^0x[a-fA-F0-9]{40}$/.test(cleanWallet)) {
       setErrorMsg('Invalid EVM wallet address. Must start with 0x and be 42 characters.');
       return;
@@ -196,15 +192,13 @@ export default function AllowlistIntake() {
 
     setSubmitting(true);
 
-    // Pre-flight check: wallet duplicate
     const isWalletTaken = await checkWalletExists(cleanWallet);
     if (isWalletTaken) {
       setSubmitting(false);
-      setErrorMsg(`The wallet ${cleanWallet.slice(0, 6)}...${cleanWallet.slice(-4)} is already registered on the Allowlist!`);
+      setErrorMsg(`The wallet ${cleanWallet.slice(0, 6)}...${cleanWallet.slice(-4)} is already registered on the ledger!`);
       return;
     }
 
-    // Generate unique referral code for this user
     const usernameSlug = twitterUsername.replace('@', '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) || 'CALC';
     const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
     const myRefCode = `${usernameSlug}-${randomSuffix}`;
@@ -228,7 +222,7 @@ export default function AllowlistIntake() {
         particleCount: 150,
         spread: 90,
         origin: { y: 0.6 },
-        colors: ['#00F58C', '#00E5FF', '#A855F7', '#FFD700', '#FFFFFF'],
+        colors: ['#c05810', '#46e35f', '#f2c14b', '#3c2c1c', '#efe7d6'],
       });
 
       const savedData = {
@@ -275,21 +269,23 @@ export default function AllowlistIntake() {
   };
 
   return (
-    <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto space-y-10">
+    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto space-y-8 font-mono">
       
-      {/* Title Header */}
-      <div className="text-center space-y-3">
-        <div className="font-pixel text-[10px] sm:text-xs text-[#00E5FF] tracking-widest uppercase flex items-center justify-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00F58C] animate-pulse"></span>
-          CALCULOGRAPH GENESIS
-        </div>
-        <h1 className="font-pixel text-2xl sm:text-4xl text-[#00F58C] tracking-wide uppercase text-neon-green">
-          ALLOWLIST INTAKE
+      {/* Section Header */}
+      <div className="text-center space-y-2">
+        <p className="text-[11px] font-bold tracking-[2px] uppercase text-[#c05810]">
+          The Adding Room &bull; Phase 1
+        </p>
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-[4px] uppercase text-[#efe7d6]">
+          CALCULOGRAPH
         </h1>
+        <p className="text-xs text-[#8d7c66] max-w-md mx-auto leading-relaxed">
+          1,000 calculating machines on Robinhood Chain. Complete 3 verification steps to secure your permanent ledger pass.
+        </p>
       </div>
 
-      {/* Step Tabs Pills Container with strict progression */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-3 p-1.5 rounded-xl bg-[#05070B] border border-[#1E293B] font-pixel text-[9px] sm:text-xs text-center select-none">
+      {/* Step Tabs: Physical Mechanical Toggle Buttons */}
+      <div className="grid grid-cols-3 gap-2 p-1.5 rounded bg-[#221b12] border-2 border-[#3c2c1c] text-center font-bold text-[10px] sm:text-xs select-none shadow-[3px_4px_rgba(0,0,0,0.3)]">
         
         {/* Tab 1 */}
         <button
@@ -299,12 +295,12 @@ export default function AllowlistIntake() {
             sound.playClick();
             setCurrentStep(1);
           }}
-          className={`py-3 px-2 rounded-lg border transition-all ${
+          className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
             completedData || currentStep === 1
-              ? 'border-[#00F58C] text-[#00F58C] bg-[#00F58C]/10 shadow-sm shadow-[#00F58C]/20'
+              ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
               : currentStep > 1
-              ? 'border-[#00F58C]/40 text-[#00F58C] bg-transparent cursor-pointer'
-              : 'border-transparent text-slate-500'
+              ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
+              : 'border-transparent text-[#8d7c66]'
           }`}
         >
           {completedData ? '01 IDENTITY ✓' : '01 IDENTITY'}
@@ -319,12 +315,12 @@ export default function AllowlistIntake() {
             sound.playClick();
             setCurrentStep(2);
           }}
-          className={`py-3 px-2 rounded-lg border transition-all ${
+          className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
             completedData || currentStep === 2
-              ? 'border-[#00F58C] text-[#00F58C] bg-[#00F58C]/10 shadow-sm shadow-[#00F58C]/20'
+              ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
               : allMissionsDone || currentStep > 2
-              ? 'border-[#00F58C]/40 text-[#00F58C] bg-transparent cursor-pointer'
-              : 'border-transparent text-slate-600 cursor-not-allowed'
+              ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
+              : 'border-transparent text-[#6d5b44] cursor-not-allowed'
           }`}
         >
           {completedData ? '02 MISSIONS ✓' : '02 MISSIONS'}
@@ -339,14 +335,14 @@ export default function AllowlistIntake() {
             sound.playClick();
             setCurrentStep(3);
           }}
-          className={`py-3 px-2 rounded-lg border transition-all ${
+          className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
             completedData || currentStep === 3
-              ? 'border-[#00F58C] text-[#00F58C] bg-[#00F58C]/10 shadow-sm shadow-[#00F58C]/20'
+              ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
               : currentStep > 3
-              ? 'border-[#00F58C]/40 text-[#00F58C] bg-transparent'
+              ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c]'
               : allMissionsDone && currentStep > 1
-              ? 'border-transparent text-slate-400 hover:text-white cursor-pointer'
-              : 'border-transparent text-slate-600 cursor-not-allowed opacity-50'
+              ? 'bg-transparent text-[#efe7d6] border-dashed border-[#8d7c66] cursor-pointer'
+              : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-60'
           }`}
         >
           {completedData ? '03 WALLET ✓' : '03 WALLET'}
@@ -354,42 +350,47 @@ export default function AllowlistIntake() {
 
       </div>
 
-      {/* Main Terminal Box Container */}
-      <div className="rounded-2xl p-6 sm:p-8 bg-[#080C14] border border-[#1E293B] shadow-2xl space-y-6">
+      {/* Main Form Container: Calctrons Vintage Paper Panel */}
+      <div className="calctrons-panel p-6 sm:p-8 space-y-6">
         
         {/* ===================== STEP 1: 01 IDENTITY ===================== */}
         {currentStep === 1 && (
-          <form onSubmit={handleStep1Submit} className="space-y-6 animate-in fade-in duration-200">
-            <div className="font-pixel text-[10px] text-slate-400 tracking-wider uppercase">
-              DESK ACCESS REQUEST
+          <form onSubmit={handleStep1Submit} className="space-y-6 animate-in fade-in duration-150">
+            
+            <div className="border-b-2 border-[#d6c9ab] pb-3 flex justify-between items-baseline">
+              <span className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#c05810]">
+                DESK CLEARANCE FORM
+              </span>
+              <span className="text-[10px] text-[#8d7c66] uppercase tracking-wider">
+                ENTRY REQUIRED
+              </span>
             </div>
 
             {/* X Username Field */}
             <div className="space-y-2">
-              <label className="block font-pixel text-[10px] text-slate-300 uppercase tracking-wider">
-                X USERNAME
+              <label className="block text-xs font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
+                X USERNAME (TWITTER)
               </label>
               <input
                 type="text"
                 required
                 value={twitterUsername}
                 onChange={(e) => {
-                  // Only allow Latin characters, digits, underscore and @
                   const latinOnly = e.target.value.replace(/[^a-zA-Z0-9_@]/g, '');
                   setTwitterUsername(latinOnly);
                   if (errorMsg) setErrorMsg('');
                 }}
                 placeholder="@username"
-                className="w-full px-4 py-4 rounded-xl bg-[#04060A] border border-[#1E293B] text-white font-mono text-sm focus:outline-none focus:border-[#00F58C] transition placeholder:text-slate-600"
+                className="w-full px-4 py-3.5 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-sm font-bold focus:outline-none focus:bg-[#efe7d6] focus:border-[#c05810] transition placeholder:text-[#8d7c66]"
               />
             </div>
 
             {/* Live Twitter Avatar Preview Card */}
             {twitterUsername.replace('@', '').length >= 2 && (
-              <div className="p-3 rounded-xl bg-[#04060A] border border-[#1E293B] flex items-center gap-3 animate-in fade-in slide-in-from-top-1 duration-200">
-                <div className="relative w-11 h-11 rounded-full overflow-hidden border border-[#00F58C]/40 flex-shrink-0 bg-[#0e1626] flex items-center justify-center">
+              <div className="p-3 bg-[#e3d8c0] border-2 border-[#3c2c1c] flex items-center gap-3 animate-in fade-in duration-150 shadow-[2px_3px_rgba(0,0,0,0.2)]">
+                <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-[#3c2c1c] flex-shrink-0 bg-[#d6c9ab] flex items-center justify-center">
                   {avatarLoading ? (
-                    <Loader2 size={16} className="text-[#00F58C] animate-spin" />
+                    <Loader2 size={16} className="text-[#c05810] animate-spin" />
                   ) : avatarUrl ? (
                     <img
                       src={avatarUrl}
@@ -398,20 +399,20 @@ export default function AllowlistIntake() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <User size={18} className="text-slate-500" />
+                    <User size={18} className="text-[#6d5b44]" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-mono text-sm font-bold text-white truncate">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-sm font-bold text-[#3c2c1c] truncate">
                       {twitterUsername.startsWith('@') ? twitterUsername : `@${twitterUsername}`}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] bg-[#00F58C]/20 text-[#00F58C] font-pixel">
-                      VERIFIED
+                    <span className="px-1.5 py-0.5 border border-[#1f6b30] bg-[#d6f8dc] text-[#1f6b30] text-[9px] font-bold uppercase">
+                      ACTIVE
                     </span>
                   </div>
-                  <div className="text-[11px] font-mono text-slate-500">
-                    Live Twitter Profile Detected
+                  <div className="text-[11px] text-[#6d5b44]">
+                    Verified Operator Account
                   </div>
                 </div>
               </div>
@@ -420,12 +421,12 @@ export default function AllowlistIntake() {
             {/* Invite Code Field (Optional) */}
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <label className="block font-pixel text-[10px] text-slate-300 uppercase tracking-wider">
-                  INVITE CODE <span className="text-slate-500 font-mono text-[9px]">(OPTIONAL)</span>
+                <label className="block text-xs font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
+                  INVITE CODE <span className="text-[#8d7c66] font-normal text-[10px]">(OPTIONAL)</span>
                 </label>
                 {inviteCodeStatus?.valid && inviteCode.trim() && (
-                  <span className="font-pixel text-[9px] text-[#00F58C] flex items-center gap-1">
-                    <Check size={11} /> VALID CODE
+                  <span className="text-[10px] font-bold text-[#1f6b30] flex items-center gap-1">
+                    <Check size={12} /> VALID CODE
                   </span>
                 )}
               </div>
@@ -438,13 +439,13 @@ export default function AllowlistIntake() {
                   setInviteCodeStatus(null);
                   if (errorMsg) setErrorMsg('');
                 }}
-                placeholder="optional (e.g. GENESIS, CALC)"
-                className="w-full px-4 py-4 rounded-xl bg-[#04060A] border border-[#1E293B] text-[#00E5FF] font-mono text-sm focus:outline-none focus:border-[#00F58C] transition placeholder:text-slate-600 uppercase tracking-wider"
+                placeholder="OPTIONAL (E.G. GENESIS, CALC)"
+                className="w-full px-4 py-3.5 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-sm font-bold focus:outline-none focus:bg-[#efe7d6] focus:border-[#c05810] transition placeholder:text-[#8d7c66] uppercase tracking-wider"
               />
             </div>
 
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-xs flex items-center gap-2 animate-in fade-in">
+              <div className="p-3 bg-[#fee2e2] border-2 border-[#dc2626] text-[#991b1b] text-xs font-bold flex items-center gap-2">
                 <AlertCircle size={15} className="flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
@@ -454,15 +455,15 @@ export default function AllowlistIntake() {
             <button
               type="submit"
               disabled={validatingCode}
-              className="w-full py-4 px-6 rounded-xl bg-[#00F58C] hover:bg-[#25FF9C] text-black font-pixel text-xs uppercase tracking-widest shadow-lg shadow-[#00F58C]/20 hover:shadow-[#00F58C]/40 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+              className="calctrons-btn w-full py-4 px-6 text-sm flex items-center justify-center gap-2"
             >
               {validatingCode ? (
                 <>
-                  <Loader2 size={15} className="animate-spin" />
-                  <span>[ VERIFYING CODE... ]</span>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>VERIFYING CODE...</span>
                 </>
               ) : (
-                <span>[ ENTER THE FLOOR ]</span>
+                <span>ENTER THE PROTOCOL &rarr;</span>
               )}
             </button>
           </form>
@@ -470,144 +471,144 @@ export default function AllowlistIntake() {
 
         {/* ===================== STEP 2: 02 MISSIONS ===================== */}
         {currentStep === 2 && (
-          <div className="space-y-6 animate-in fade-in duration-200">
-            <div className="flex justify-between items-center">
-              <span className="font-pixel text-[10px] text-slate-400 tracking-wider uppercase">
-                DESK CLEARANCE PROTOCOL
+          <div className="space-y-6 animate-in fade-in duration-150">
+            <div className="border-b-2 border-[#d6c9ab] pb-3 flex justify-between items-baseline">
+              <span className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#c05810]">
+                MEMORIZATION CLEARANCE
               </span>
-              <span className={`font-pixel text-[10px] font-bold ${allMissionsDone ? 'text-[#00F58C]' : 'text-amber-400'}`}>
-                {completedMissionsCount} / 3 COMPLETED
+              <span className={`text-[10px] font-bold uppercase ${allMissionsDone ? 'text-[#1f6b30]' : 'text-[#b45309]'}`}>
+                {completedMissionsCount} / 3 TASKS COMPLETED
               </span>
             </div>
 
-            {/* Mission 1: Follow on X (Direct Follow Intent) */}
+            {/* Mission 1 */}
             <div
               onClick={() => handleMissionClick('follow', 'https://twitter.com/intent/follow?screen_name=Calculograph')}
-              className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-4 ${
+              className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.follow.completed
-                  ? 'bg-[#00F58C]/10 border-[#00F58C]'
-                  : 'bg-[#04060A] border-[#1E293B] hover:border-slate-400'
+                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e]'
+                  : 'bg-[#e3d8c0] border-[#3c2c1c] hover:bg-[#d6c9ab]'
               }`}
             >
-              <div className="space-y-1 flex-1 min-w-0">
-                <div className="font-pixel text-[11px] text-white">
+              <div className="space-y-0.5 flex-1 min-w-0">
+                <div className="text-xs font-bold text-[#3c2c1c]">
                   1. Follow @Calculograph on X
                 </div>
-                <div className="font-mono text-[11px] text-slate-400">
-                  Synchronize with official precision calculations & releases
+                <div className="text-[11px] text-[#6d5b44]">
+                  Synchronize with precision engine announcements
                 </div>
               </div>
 
               <div className="flex-shrink-0">
                 {missions.follow.completed ? (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-[#00F58C] text-black font-pixel text-[9px] flex items-center justify-center gap-1 shadow-sm whitespace-nowrap">
+                  <span className="px-3 py-1.5 border-2 border-[#1f6b30] bg-[#46e35f] text-[#17130e] text-[10px] font-bold flex items-center gap-1 shadow-sm">
                     <Check size={12} className="stroke-[3]" /> VERIFIED
                   </span>
                 ) : missions.follow.countdown > 0 ? (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-amber-400/20 text-amber-300 font-pixel text-[9px] border border-amber-400/50 flex items-center justify-center gap-1 whitespace-nowrap animate-pulse">
+                  <span className="px-3 py-1.5 border-2 border-[#b45309] bg-[#fef3c7] text-[#92400e] text-[10px] font-bold animate-pulse">
                     VERIFYING {missions.follow.countdown}S...
                   </span>
                 ) : (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-pixel text-[9px] border border-white/15 flex items-center justify-center whitespace-nowrap">
-                    [ START ]
+                  <span className="calctrons-btn py-1.5 px-3 text-[10px]">
+                    START &rarr;
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Mission 2: Like & Repost Announcement */}
+            {/* Mission 2 */}
             <div
               onClick={() => handleMissionClick('repost', 'https://x.com/Calculograph')}
-              className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-4 ${
+              className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.repost.completed
-                  ? 'bg-[#00F58C]/10 border-[#00F58C]'
-                  : 'bg-[#04060A] border-[#1E293B] hover:border-slate-400'
+                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e]'
+                  : 'bg-[#e3d8c0] border-[#3c2c1c] hover:bg-[#d6c9ab]'
               }`}
             >
-              <div className="space-y-1 flex-1 min-w-0">
-                <div className="font-pixel text-[11px] text-white">
-                  2. Like & Repost Announcement
+              <div className="space-y-0.5 flex-1 min-w-0">
+                <div className="text-xs font-bold text-[#3c2c1c]">
+                  2. Like & Repost Genesis Machine Post
                 </div>
-                <div className="font-mono text-[11px] text-slate-400">
-                  Broadcast the Genesis Precision Clockwork Dynasty
+                <div className="text-[11px] text-[#6d5b44]">
+                  Broadcast the 4,444 calculating machines dynasty
                 </div>
               </div>
 
               <div className="flex-shrink-0">
                 {missions.repost.completed ? (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-[#00F58C] text-black font-pixel text-[9px] flex items-center justify-center gap-1 shadow-sm whitespace-nowrap">
+                  <span className="px-3 py-1.5 border-2 border-[#1f6b30] bg-[#46e35f] text-[#17130e] text-[10px] font-bold flex items-center gap-1 shadow-sm">
                     <Check size={12} className="stroke-[3]" /> VERIFIED
                   </span>
                 ) : missions.repost.countdown > 0 ? (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-amber-400/20 text-amber-300 font-pixel text-[9px] border border-amber-400/50 flex items-center justify-center gap-1 whitespace-nowrap animate-pulse">
+                  <span className="px-3 py-1.5 border-2 border-[#b45309] bg-[#fef3c7] text-[#92400e] text-[10px] font-bold animate-pulse">
                     VERIFYING {missions.repost.countdown}S...
                   </span>
                 ) : (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-pixel text-[9px] border border-white/15 flex items-center justify-center whitespace-nowrap">
-                    [ START ]
+                  <span className="calctrons-btn py-1.5 px-3 text-[10px]">
+                    START &rarr;
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Mission 3: Tag 2 Operators / Quote Tweet */}
+            {/* Mission 3 */}
             <div
               onClick={() => handleMissionClick('tag', `https://twitter.com/intent/tweet?text=${encodeURIComponent('Securing my Genesis clearance on the @Calculograph desk! ⏳⚡\n\nTagging 2 operators: @ @\n\n#Calculograph')}`)}
-              className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-4 ${
+              className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.tag.completed
-                  ? 'bg-[#00F58C]/10 border-[#00F58C]'
-                  : 'bg-[#04060A] border-[#1E293B] hover:border-slate-400'
+                  ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e]'
+                  : 'bg-[#e3d8c0] border-[#3c2c1c] hover:bg-[#d6c9ab]'
               }`}
             >
-              <div className="space-y-1 flex-1 min-w-0">
-                <div className="font-pixel text-[11px] text-white">
+              <div className="space-y-0.5 flex-1 min-w-0">
+                <div className="text-xs font-bold text-[#3c2c1c]">
                   3. Tag 2 Operators with #Calculograph
                 </div>
-                <div className="font-mono text-[11px] text-slate-400">
+                <div className="text-[11px] text-[#6d5b44]">
                   Signal the floor and lock your priority allocation
                 </div>
               </div>
 
               <div className="flex-shrink-0">
                 {missions.tag.completed ? (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-[#00F58C] text-black font-pixel text-[9px] flex items-center justify-center gap-1 shadow-sm whitespace-nowrap">
+                  <span className="px-3 py-1.5 border-2 border-[#1f6b30] bg-[#46e35f] text-[#17130e] text-[10px] font-bold flex items-center gap-1 shadow-sm">
                     <Check size={12} className="stroke-[3]" /> VERIFIED
                   </span>
                 ) : missions.tag.countdown > 0 ? (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-amber-400/20 text-amber-300 font-pixel text-[9px] border border-amber-400/50 flex items-center justify-center gap-1 whitespace-nowrap animate-pulse">
+                  <span className="px-3 py-1.5 border-2 border-[#b45309] bg-[#fef3c7] text-[#92400e] text-[10px] font-bold animate-pulse">
                     VERIFYING {missions.tag.countdown}S...
                   </span>
                 ) : (
-                  <span className="min-w-[130px] px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-pixel text-[9px] border border-white/15 flex items-center justify-center whitespace-nowrap">
-                    [ START ]
+                  <span className="calctrons-btn py-1.5 px-3 text-[10px]">
+                    START &rarr;
                   </span>
                 )}
               </div>
             </div>
 
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-xs flex items-center gap-2 animate-in fade-in">
+              <div className="p-3 bg-[#fee2e2] border-2 border-[#dc2626] text-[#991b1b] text-xs font-bold flex items-center gap-2">
                 <AlertCircle size={15} className="flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
-            {/* Strict Proceed Button (Locked until 3/3) */}
+            {/* Strict Proceed Button */}
             <div className="pt-2">
               <button
                 type="button"
                 onClick={handleStep2Proceed}
                 disabled={!allMissionsDone}
-                className={`w-full py-4 px-6 rounded-xl font-pixel text-xs uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 ${
+                className={`w-full py-4 px-6 text-sm font-bold uppercase tracking-wider transition-all duration-100 ${
                   allMissionsDone
-                    ? 'bg-[#00F58C] hover:bg-[#25FF9C] text-black shadow-lg shadow-[#00F58C]/20 hover:shadow-[#00F58C]/40 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
-                    : 'bg-[#1E293B]/50 border border-white/5 text-slate-500 cursor-not-allowed'
+                    ? 'calctrons-btn cursor-pointer'
+                    : 'bg-[#d6c9ab] border-2 border-[#8d7c66] text-[#6d5b44] cursor-not-allowed opacity-60'
                 }`}
               >
                 {allMissionsDone ? (
-                  <span>[ PROCEED TO WALLET ]</span>
+                  <span>PROCEED TO WALLET &rarr;</span>
                 ) : (
-                  <span>[ COMPLETE ALL 3 MISSIONS ({completedMissionsCount}/3) ]</span>
+                  <span>COMPLETE ALL 3 TASKS ({completedMissionsCount}/3)</span>
                 )}
               </button>
             </div>
@@ -616,31 +617,31 @@ export default function AllowlistIntake() {
 
         {/* ===================== STEP 3: 03 WALLET ===================== */}
         {currentStep === 3 && (
-          <form onSubmit={handleStep3Submit} className="space-y-6 animate-in fade-in duration-200">
-            <div className="flex justify-between items-center">
-              <span className="font-pixel text-[10px] text-slate-400 tracking-wider uppercase">
-                FINAL ALLOCATION DISPATCH
+          <form onSubmit={handleStep3Submit} className="space-y-6 animate-in fade-in duration-150">
+            <div className="border-b-2 border-[#d6c9ab] pb-3 flex justify-between items-baseline">
+              <span className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#c05810]">
+                WALLET RECORDING
               </span>
-              <span className="font-pixel text-[10px] text-[#00F58C]">
-                3/3 MISSIONS CLEARED ✓
+              <span className="text-[10px] font-bold text-[#1f6b30]">
+                3/3 TASKS CLEARED ✓
               </span>
             </div>
 
             {/* Summary card */}
-            <div className="p-4 rounded-xl bg-[#04060A] border border-[#1E293B] space-y-2">
-              <div className="flex justify-between items-center text-xs font-mono">
-                <span className="text-slate-400">Operator Identity:</span>
-                <span className="text-[#00F58C] font-bold">{twitterUsername}</span>
+            <div className="p-4 bg-[#e3d8c0] border-2 border-[#3c2c1c] space-y-2">
+              <div className="flex justify-between items-center text-xs font-bold">
+                <span className="text-[#6d5b44]">Operator:</span>
+                <span className="text-[#3c2c1c]">{twitterUsername}</span>
               </div>
-              <div className="flex justify-between items-center text-xs font-mono">
-                <span className="text-slate-400">Desk Clearance:</span>
-                <span className="text-[#00E5FF] font-bold">GTD SPOT APPROVED</span>
+              <div className="flex justify-between items-center text-xs font-bold">
+                <span className="text-[#6d5b44]">Clearance:</span>
+                <span className="text-[#c05810]">GUARANTEED SPOT APPROVED</span>
               </div>
             </div>
 
             {/* Wallet Address input */}
             <div className="space-y-2">
-              <label className="block font-pixel text-[10px] text-slate-300 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
                 EVM WALLET ADDRESS (ROBINHOOD / ETH)
               </label>
               <input
@@ -652,15 +653,15 @@ export default function AllowlistIntake() {
                   if (errorMsg) setErrorMsg('');
                 }}
                 placeholder="0x..."
-                className="w-full px-4 py-4 rounded-xl bg-[#04060A] border border-[#1E293B] text-white font-mono text-sm focus:outline-none focus:border-[#00F58C] transition placeholder:text-slate-600"
+                className="w-full px-4 py-3.5 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-sm font-bold focus:outline-none focus:bg-[#efe7d6] focus:border-[#c05810] transition placeholder:text-[#8d7c66]"
               />
-              <p className="font-mono text-[11px] text-slate-500">
+              <p className="text-[11px] text-[#6d5b44]">
                 Make sure this wallet is non-custodial (MetaMask, Rabby, Coinbase Wallet, etc.)
               </p>
             </div>
 
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-xs flex items-center gap-2 animate-in fade-in">
+              <div className="p-3 bg-[#fee2e2] border-2 border-[#dc2626] text-[#991b1b] text-xs font-bold flex items-center gap-2">
                 <AlertCircle size={15} className="flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
@@ -670,15 +671,15 @@ export default function AllowlistIntake() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-4 px-6 rounded-xl bg-[#00F58C] hover:bg-[#25FF9C] text-black font-pixel text-xs uppercase tracking-widest shadow-lg shadow-[#00F58C]/20 hover:shadow-[#00F58C]/40 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+              className="calctrons-btn w-full py-4 px-6 text-sm flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>
-                  <Loader2 size={15} className="animate-spin" />
-                  <span>[ LOCKING ENTRY ON DESK... ]</span>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>RECORDING ON LEDGER...</span>
                 </>
               ) : (
-                <span>[ CLAIM CALCULOGRAPH PASS ]</span>
+                <span>MEMORIZE ENTRY ON DESK &rarr;</span>
               )}
             </button>
           </form>
