@@ -1,88 +1,79 @@
-# 🧬 SPERM BROKERS — Official NFT Web3 Portal & Minting Platform
+# ⏳ CALCULOGRAPH — Official Allowlist Intake & Pass Portal
 
-Полнофункциональный современный Web3 сайт и интерактивный портал для NFT коллекции **Sperm Brokers (Robinhood Chain Edition)**.
-
----
-
-## 🌟 Основные Возможности
-
-- **🖼 Интерактивная Галерея всех 11 Персонажей**:
-  - Полные данные по каждому персонажу: #001 Classic Broker, #002 Billionaire CEO, #003 Cyberpunk Hacker, #004 WSB Degen Ape, #005 Old Money Lord, #006 Miami Vice, #007 Robinhood Archer, #008 Mining Maxi, #009 Moon Astronaut, #010 Panic Liquidated, и эксклюзивный **#011 1/1 Mythic Golden God**.
-  - Фильтрация по редкости (`All`, `1/1 Mythic`, `Legendary`, `Epic`, `Rare`, `Uncommon`, `Common`, `Rare Meme`).
-  - Поиск в реальном времени по именам и свойствам.
-  - Детальное модальное окно досье персонажа с 3D-голографическим наклоном, характеристиками и кнопкой скачивания HD аватара.
-
-- **⚡ Интерактивный Минтинг Терминал (Web3 Mint Terminal)**:
-  - Живой счетчик сапплая (742 / 1,000).
-  - Селектор количества (1-10) с подсчетом стоимости в ETH.
-  - Геймифицированная симуляция минта с распаковкой лутбокса, конфетти-эффектом и случайным выпадением брокера.
-
-- **💎 DeFi $SPRM Калькулятор Стейкинга**:
-  - Интерактивный выбор брокеров из коллекции.
-  - Расчет ежедневного и ежемесячного дохода в токенах `$SPRM` и USD.
-  - Система множителей редкости (до 10x для Golden God).
-  - Список холдерских привилегий (VIP Alpha Discord, 50% роялти, вайтлисты).
-
-- **🔊 8-Bit Web Audio Звуковой Синтезатор**:
-  - Встроенная генерация ретро-звуков (клики, кассовый аппарат $, фанфары минта, лазерные звуки мифика).
-
-- **🌐 Двуязычность (RU / EN)**:
-  - Мгновенное переключение языка всего интерфейса в 1 клик.
-
-- **🦊 Web3 Модалка Кошелька**:
-  - Поддержка Robinhood Wallet, MetaMask, Phantom, Coinbase Wallet, WalletConnect с симуляцией баланса и сети Robinhood L2.
+Official Allowlist intake portal for **Calculograph (3,333 calculating machines on Robinhood Chain)** in antique Calctrons physical mechanical ledger style.
 
 ---
 
-## 🚀 Быстрый запуск
+## 🌟 Key Features
 
-### 1. Установка зависимостей:
+- **Antique Paper & Sepia Mechanical Style**: Inspired by mechanical calculators, 19th-century chronometers, and physical ledgers (`#efe7d6`, `#3c2c1c`, `#c05810`, `#46e35f`).
+- **3-Step Linear Intake Protocol**:
+  - `01 IDENTITY`: X (Twitter) verification with duplicate checking and live avatar resolution.
+  - `02 MISSIONS`: 3 interactive X clearance tasks (Follow, Repost, Tag 2 Operators) with 5-second countdown verifier.
+  - `03 WALLET`: EVM address submission on Robinhood Chain with strict duplicate checking in Supabase.
+- **Permanent Chrono Pass Certificate**:
+  - Automatically generated high-contrast operator pass.
+  - One-click PNG image download with `html-to-image`.
+  - Native referral link generation and share-to-X intents.
+- **Acoustic Mechanical Sound Effects**: Procedural Web Audio API sound synthesizer with clicks, typewriter snaps, and confirmation chimes.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Install dependencies:
 ```bash
 npm install
 ```
 
-### 2. Запуск локального сервера разработки:
+### 2. Run local development server:
 ```bash
 npm run dev
 ```
-После запуска сайт доступен по адресу: `http://localhost:5173/`
 
-### 3. Сборка для продакшена:
+### 3. Build for production:
 ```bash
 npm run build
 ```
 
 ---
 
-## 📁 Структура проекта
+## ☁️ Deployment on Vercel
+
+1. Import repository `KrilleX07/Calculograph` into [Vercel](https://vercel.com/new).
+2. Framework Preset: **Vite** (detected automatically).
+3. Environment Variables (optional, defaults are embedded):
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+4. Click **Deploy**.
+
+---
+
+## 📁 Project Structure
 
 ```
-sperm_broker/
+Calculograph/
+├── api/
+│   ├── avatar.js            # Serverless X profile avatar metadata fetcher
+│   └── avatar-proxy.js      # Serverless binary image CORS proxy
 ├── public/
-│   └── nft/                 # 11 NFT изображений высокого разрешения
+│   ├── favicon.png
+│   └── audio/
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.jsx       # Шапка с тикером котировок, звуком, языком и кошельком
-│   │   ├── Hero.jsx         # Главный экран с 3D каруселью персонажей
-│   │   ├── MintSection.jsx  # Минт-терминал с лутбокс-анимацией и конфетти
-│   │   ├── Gallery.jsx      # Каталог NFT с поиском и фильтрами редкости
-│   │   ├── NFTModal.jsx     # 3D досье персонажа и скачивание HD аватара
-│   │   ├── StakingCalculator.jsx # Калькулятор доходности $SPRM
-│   │   ├── LoreSection.jsx  # История и философия коллекции
-│   │   ├── TraitMatrix.jsx  # Матрица атрибутов и распределение редкостей
-│   │   ├── Roadmap.jsx      # Дорожная карта 2026-2027
-│   │   ├── FAQ.jsx          # Часто задаваемые вопросы
-│   │   ├── WalletModal.jsx  # Окно подключения Web3 кошелька
-│   │   └── Footer.jsx       # Подвал и соцсети
-│   ├── data/
-│   │   ├── nfts.js          # Полные метаданные всех 11 персонажей
-│   │   └── translations.js  # Тексты и переводы RU / EN
+│   │   ├── Navbar.jsx       # Vintage ledger header with operational status
+│   │   ├── AllowlistIntake.jsx # 3-step linear verification form
+│   │   ├── AllowlistPass.jsx   # Printable mechanical Chrono Pass
+│   │   └── Footer.jsx       # Minimalist footer
 │   ├── utils/
-│   │   └── sound.js         # Web Audio API 8-bit звуковой синтезатор
+│   │   ├── avatar.js        # Multi-fallback avatar resolver
+│   │   ├── supabase.js      # Supabase client & duplicate protection
+│   │   └── sound.js         # Web Audio procedural sound engine
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css
 ├── index.html
+├── vercel.json
 ├── package.json
 ├── tailwind.config.js
 └── vite.config.js
