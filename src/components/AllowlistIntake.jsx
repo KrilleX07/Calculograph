@@ -121,7 +121,7 @@ export default function AllowlistIntake() {
 
   // Step 1: Validate identity, check Twitter duplicate and referral code
   const handleStep1Submit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setErrorMsg('');
     sound.playClick();
 
@@ -143,27 +143,34 @@ export default function AllowlistIntake() {
 
     setValidatingCode(true);
 
-    const isTwitterTaken = await checkTwitterExists(cleanTwitter);
-    if (isTwitterTaken) {
-      setValidatingCode(false);
-      setErrorMsg(`The X account ${cleanTwitter} is already registered on the ledger!`);
-      return;
-    }
-
-    if (inviteCode && inviteCode.trim()) {
-      const codeCheck = await validateInviteCode(inviteCode.trim());
-      setInviteCodeStatus(codeCheck);
-
-      if (!codeCheck.valid) {
+    try {
+      const isTwitterTaken = await checkTwitterExists(cleanTwitter);
+      if (isTwitterTaken) {
         setValidatingCode(false);
-        setErrorMsg(codeCheck.message || 'Invalid invite code.');
+        setErrorMsg(`The X account ${cleanTwitter} is already registered on the ledger!`);
         return;
       }
-    }
 
-    setValidatingCode(false);
-    sound.playSuccess();
-    setCurrentStep(2);
+      if (inviteCode && inviteCode.trim()) {
+        const codeCheck = await validateInviteCode(inviteCode.trim());
+        setInviteCodeStatus(codeCheck);
+
+        if (!codeCheck.valid) {
+          setValidatingCode(false);
+          setErrorMsg(codeCheck.message || 'Invalid invite code.');
+          return;
+        }
+      }
+
+      sound.playSuccess();
+      setCurrentStep(2);
+    } catch (err) {
+      console.warn('Step 1 validation warning:', err);
+      sound.playSuccess();
+      setCurrentStep(2);
+    } finally {
+      setValidatingCode(false);
+    }
   };
 
   // Step 2 Proceed to Wallet
