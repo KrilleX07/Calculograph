@@ -8,21 +8,9 @@ export default function Footer() {
         
         {/* Brand & Edition */}
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded border border-[#d6c9ab] bg-[#c05810] text-[#efe7d6] flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M7 2h10v5H7z" />
-                <rect x="4" y="7" width="16" height="3" rx="1" />
-                <path d="M3 10h18l-1.5 11H4.5L3 10z" />
-                <circle cx="8" cy="14" r="0.75" fill="currentColor" />
-                <circle cx="12" cy="14" r="0.75" fill="currentColor" />
-                <circle cx="16" cy="14" r="0.75" fill="currentColor" />
-              </svg>
-            </div>
-            <span className="font-bold tracking-[2.5px] uppercase text-[#efe7d6]">
-              CALCULOGRAPH
-            </span>
-          </div>
+          <span className="font-bold tracking-[3px] uppercase text-[#efe7d6] text-sm font-mono">
+            CALCULOGRAPH
+          </span>
           <span className="hidden sm:inline text-[#8d7c66]">|</span>
           <span className="text-[11px] text-[#d6c9ab]">
             © 2026 The Adding Room &bull; Robinhood Chain
