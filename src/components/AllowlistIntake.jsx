@@ -537,7 +537,7 @@ export default function AllowlistIntake() {
 
             {/* Mission 2 */}
             <div
-              onClick={() => handleMissionClick('repost', 'https://x.com/Calculograph')}
+              onClick={() => handleMissionClick('repost', 'https://x.com/Calculograph/status/2094462419141845095')}
               className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.repost.completed
                   ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e] hover:bg-[#c2f2cb] active:scale-[0.99]'
@@ -572,7 +572,7 @@ export default function AllowlistIntake() {
 
             {/* Mission 3 */}
             <div
-              onClick={() => handleMissionClick('tag', `https://twitter.com/intent/tweet?text=${encodeURIComponent('Securing my Genesis clearance on the @Calculograph desk! ⏳⚡\n\nTagging 2 operators: @ @\n\n#Calculograph')}`)}
+              onClick={() => handleMissionClick('tag', `https://twitter.com/intent/tweet?text=${encodeURIComponent('Securing my Genesis clearance on the @Calculograph desk! ⏳⚡\n\nTagging 2 operators: @ @\n\nhttps://x.com/Calculograph/status/2094462419141845095\n\n#Calculograph')}`)}
               className={`p-4 border-2 cursor-pointer transition-all flex items-center justify-between gap-4 ${
                 missions.tag.completed
                   ? 'bg-[#d6f8dc] border-[#1f6b30] text-[#17130e] hover:bg-[#c2f2cb] active:scale-[0.99]'
