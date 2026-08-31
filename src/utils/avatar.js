@@ -1,5 +1,5 @@
 /**
- * Multi-fallback reliable Twitter/X profile avatar resolver
+ * Multi-fallback Twitter/X profile avatar resolver
  */
 const avatarCache = {};
 
@@ -11,38 +11,36 @@ export async function fetchTwitterAvatar(username) {
     return avatarCache[clean];
   }
 
-  // 1. Try Microlink direct X profile scraper API (returns direct pbs.twimg.com avatar)
+  // 1. Try Vercel Serverless Function
+  try {
+    const res = await fetch(`/api/avatar?username=${clean}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data?.avatarUrl && data.avatarUrl.includes('twimg.com')) {
+        avatarCache[clean] = data.avatarUrl;
+        return data.avatarUrl;
+      }
+    }
+  } catch (e) {
+    // Ignore local error
+  }
+
+  // 2. Try Microlink direct CORS API (Returns real pbs.twimg.com image)
   try {
     const res = await fetch(`https://api.microlink.io/?url=https://x.com/${clean}`);
     if (res.ok) {
       const json = await res.json();
       const imgUrl = json?.data?.image?.url;
       if (imgUrl && imgUrl.includes('twimg.com')) {
-        // Wrap with Cloudflare image cache proxy to bypass referrer blocks
-        const proxiedUrl = `https://wsrv.nl/?url=${encodeURIComponent(imgUrl)}&w=400&h=400&fit=cover`;
-        avatarCache[clean] = proxiedUrl;
-        return proxiedUrl;
+        avatarCache[clean] = imgUrl;
+        return imgUrl;
       }
     }
   } catch (e) {
-    // Continue to next fallback
+    // Ignore error
   }
 
-  // 2. Try Vercel Serverless Function (if deployed)
-  try {
-    const res = await fetch(`/api/avatar?username=${clean}`);
-    if (res.ok) {
-      const data = await res.json();
-      if (data?.avatarUrl && data.avatarUrl.includes('twimg.com')) {
-        const proxiedUrl = `https://wsrv.nl/?url=${encodeURIComponent(data.avatarUrl)}&w=400&h=400&fit=cover`;
-        avatarCache[clean] = proxiedUrl;
-        return proxiedUrl;
-      }
-    }
-  } catch (e) {}
-
-  // 3. Fallback unavatar through wsrv proxy
-  const fallbackUrl = `https://wsrv.nl/?url=https://unavatar.io/twitter/${clean}&w=400&h=400&fit=cover`;
-  avatarCache[clean] = fallbackUrl;
+  // 3. Fallback unavatar
+  const fallbackUrl = `https://unavatar.io/twitter/${clean}`;
   return fallbackUrl;
 }
