@@ -62,6 +62,7 @@ export default function AllowlistIntake() {
             repost: { completed: true, countdown: 0 },
             tag: { completed: true, countdown: 0 },
           });
+          setCurrentStep(4); // Immediately show Pass Certificate
         }
       }
     } catch (e) {}
@@ -73,10 +74,9 @@ export default function AllowlistIntake() {
       const params = new URLSearchParams(window.location.search);
       const refParam = params.get('ref');
       if (refParam) {
-        setInviteCode(refParam.toUpperCase());
-        validateInviteCode(refParam.toUpperCase()).then((res) => {
-          setInviteCodeStatus(res);
-        });
+        const cleanRef = refParam.toUpperCase().trim();
+        setInviteCode(cleanRef);
+        setInviteCodeStatus({ valid: true, code: cleanRef });
       }
     } catch (e) {
       console.warn('URL param parse notice:', e);
@@ -160,7 +160,7 @@ export default function AllowlistIntake() {
 
   // Step 2 Proceed to Wallet
   const handleStep2Proceed = () => {
-    if (!allMissionsDone) {
+    if (!allMissionsDone && !completedData) {
       setErrorMsg('Please complete all 3 missions before proceeding.');
       return;
     }
@@ -261,6 +261,7 @@ export default function AllowlistIntake() {
     setWalletAddress('');
     setInviteCode('');
     setInviteCodeStatus(null);
+    setMaxStepReached(1);
     setMissions({
       follow: { completed: false, countdown: 0 },
       repost: { completed: false, countdown: 0 },
@@ -292,27 +293,23 @@ export default function AllowlistIntake() {
         <button
           type="button"
           onClick={() => {
-            if (completedData) return;
             sound.playClick();
             setCurrentStep(1);
           }}
           className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
-            completedData || currentStep === 1
+            currentStep === 1
               ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
-              : currentStep > 1
-              ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
-              : 'border-transparent text-[#8d7c66]'
+              : 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
           }`}
         >
           {completedData ? '01 IDENTITY ✓' : '01 IDENTITY'}
         </button>
 
-        {/* Tab 2: Unlocked and styled cream whenever Step 1 has been cleared */}
+        {/* Tab 2 */}
         <button
           type="button"
           onClick={async () => {
-            if (completedData) return;
-            if (maxStepReached >= 2 || allMissionsDone) {
+            if (maxStepReached >= 2 || allMissionsDone || completedData) {
               sound.playClick();
               setCurrentStep(2);
             } else if (currentStep === 1) {
@@ -320,9 +317,9 @@ export default function AllowlistIntake() {
             }
           }}
           className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
-            completedData || currentStep === 2
+            currentStep === 2
               ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
-              : maxStepReached >= 2 || allMissionsDone
+              : maxStepReached >= 2 || allMissionsDone || completedData
               ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
               : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-50'
           }`}
@@ -330,20 +327,19 @@ export default function AllowlistIntake() {
           {completedData ? '02 MISSIONS ✓' : '02 MISSIONS'}
         </button>
 
-        {/* Tab 3: Unlocked and styled cream when missions are cleared */}
+        {/* Tab 3 */}
         <button
           type="button"
-          disabled={!completedData && !allMissionsDone && maxStepReached < 3}
           onClick={() => {
-            if (completedData || allMissionsDone || maxStepReached >= 3) {
+            if (allMissionsDone || maxStepReached >= 3 || completedData) {
               sound.playClick();
               setCurrentStep(3);
             }
           }}
           className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
-            completedData || currentStep === 3
+            currentStep === 3
               ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
-              : allMissionsDone || maxStepReached >= 3
+              : allMissionsDone || maxStepReached >= 3 || completedData
               ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
               : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-50'
           }`}
@@ -355,6 +351,32 @@ export default function AllowlistIntake() {
 
       {/* Main Form Container: Calctrons Vintage Paper Panel */}
       <div className="calctrons-panel p-6 sm:p-8 space-y-6">
+
+        {/* Verified Operator Alert Banner when completedData exists */}
+        {completedData && currentStep !== 4 && (
+          <div className="p-3 bg-[#e3d8c0] border-2 border-[#3c2c1c] flex items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#1f6b30]"></span>
+              <span className="font-bold text-[#3c2c1c]">Verified: {completedData.twitter}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => { sound.playClick(); setCurrentStep(4); }}
+                className="calctrons-btn py-1 px-3 text-[10px] cursor-pointer"
+              >
+                VIEW PASS &rarr;
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="text-[10px] font-bold text-[#8d7c66] hover:text-[#3c2c1c] underline uppercase cursor-pointer"
+              >
+                NEW APPLICATION
+              </button>
+            </div>
+          </div>
+        )}
         
         {/* ===================== STEP 1: 01 IDENTITY ===================== */}
         {currentStep === 1 && (
