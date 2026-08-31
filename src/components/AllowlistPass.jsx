@@ -52,26 +52,47 @@ export default function AllowlistPass({ data, onReset }) {
 
   const handleDownload = async () => {
     if (!passRef.current) return;
-    sound.playCash();
+    try { sound.playCash(); } catch (e) {}
     setDownloading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 150));
       
-      const dataUrl = await toPng(passRef.current, {
-        cacheBust: true,
-        pixelRatio: 3,
-        backgroundColor: '#17130e',
-        style: {
-          transform: 'none',
-          margin: '0',
-        },
-      });
+      let dataUrl;
+      try {
+        dataUrl = await toPng(passRef.current, {
+          cacheBust: true,
+          pixelRatio: 2,
+          backgroundColor: '#17130e',
+          skipFonts: true,
+          style: {
+            transform: 'none',
+            margin: '0',
+          },
+        });
+      } catch (err1) {
+        console.warn('First toPng attempt failed, retrying...', err1);
+        dataUrl = await toPng(passRef.current, {
+          cacheBust: false,
+          pixelRatio: 1.5,
+          backgroundColor: '#17130e',
+          skipFonts: true,
+        });
+      }
 
-      const link = document.createElement('a');
-      link.download = `calculograph-pass-${cleanTwitter.replace('@', '')}.png`;
-      link.href = dataUrl;
-      link.click();
+      if (dataUrl) {
+        const filename = `calculograph-pass-${cleanTwitter.replace('@', '')}.png`;
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          try {
+            document.body.removeChild(link);
+          } catch (e) {}
+        }, 100);
+      }
     } catch (err) {
       console.error('Failed to download pass:', err);
     } finally {
