@@ -10,7 +10,6 @@ export default function AllowlistIntake() {
   const [currentStep, setCurrentStep] = useState(1);
   const [twitterUsername, setTwitterUsername] = useState('');
   const [inviteCode, setInviteCode] = useState('');
-  const [validatingCode, setValidatingCode] = useState(false);
   const [inviteCodeStatus, setInviteCodeStatus] = useState(null);
 
   const [avatarUrl, setAvatarUrl] = useState(null);
