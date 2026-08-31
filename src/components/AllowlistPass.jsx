@@ -204,7 +204,7 @@ export default function AllowlistPass({ data, onReset }) {
 
           {/* Card Footer */}
           <div className="flex justify-between items-center text-[9px] font-bold text-[#6d5b44] uppercase tracking-wider">
-            <span>ROBINHOOD CHAIN &bull; 1,000 ED.</span>
+            <span>ROBINHOOD CHAIN &bull; 3,333 ED.</span>
             <span className="text-[#c05810]">X.COM/CALCULOGRAPH</span>
           </div>
 

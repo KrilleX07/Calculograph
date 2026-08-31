@@ -280,7 +280,7 @@ export default function AllowlistIntake() {
           CALCULOGRAPH
         </h1>
         <p className="text-xs text-[#8d7c66] max-w-md mx-auto leading-relaxed">
-          1,000 calculating machines on Robinhood Chain. Complete 3 verification steps to secure your permanent ledger pass.
+          3,333 calculating machines on Robinhood Chain. Complete 3 verification steps to secure your permanent ledger pass.
         </p>
       </div>
 

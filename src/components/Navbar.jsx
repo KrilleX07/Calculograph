@@ -62,7 +62,7 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
             <span className="text-[#46e35f]">OPERATIONAL</span>
           </div>
           <span className="text-[#8d7c66]">|</span>
-          <span className="hidden sm:inline">1,000 CALCULATING MACHINES</span>
+          <span className="hidden sm:inline">3,333 CALCULATING MACHINES</span>
           <span className="hidden sm:inline text-[#8d7c66]">|</span>
           <span>ROBINHOOD CHAIN</span>
           <span className="text-[#8d7c66]">|</span>
