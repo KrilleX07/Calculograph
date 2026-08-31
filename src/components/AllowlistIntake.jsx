@@ -122,7 +122,7 @@ export default function AllowlistIntake() {
   const handleStep1Submit = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     setErrorMsg('');
-    sound.playClick();
+    try { sound.playClick(); } catch (err) {}
 
     let cleanTwitter = twitterUsername.trim();
     if (!cleanTwitter) {
@@ -140,7 +140,7 @@ export default function AllowlistIntake() {
       return;
     }
 
-    sound.playSuccess();
+    try { sound.playSuccess(); } catch (err) {}
     setCurrentStep(2);
   };
 
@@ -150,7 +150,7 @@ export default function AllowlistIntake() {
       setErrorMsg('Please complete all 3 missions before proceeding.');
       return;
     }
-    sound.playSuccess();
+    try { sound.playSuccess(); } catch (err) {}
     setErrorMsg('');
     setCurrentStep(3);
   };

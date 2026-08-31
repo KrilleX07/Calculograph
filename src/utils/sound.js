@@ -38,9 +38,7 @@ class SoundEffects {
 
       osc.start();
       osc.stop(this.ctx.currentTime + 0.05);
-    } catch (e) {
-      // Audio autoplay policy fallback
-    }
+    } catch (e) {}
   }
 
   playCash() {
@@ -50,7 +48,6 @@ class SoundEffects {
       if (!this.ctx) return;
       const t = this.ctx.currentTime;
       
-      // Dual high chime
       [987.77, 1318.51, 1975.53].forEach((freq, idx) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
@@ -70,6 +67,10 @@ class SoundEffects {
     } catch (e) {}
   }
 
+  playSuccess() {
+    this.playCash();
+  }
+
   playMintSuccess() {
     if (!this.enabled) return;
     try {
@@ -77,7 +78,6 @@ class SoundEffects {
       if (!this.ctx) return;
       const t = this.ctx.currentTime;
 
-      // Ascending triumphant synth arpeggio
       const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
       notes.forEach((freq, i) => {
         const osc = this.ctx.createOscillator();
@@ -105,7 +105,6 @@ class SoundEffects {
       if (!this.ctx) return;
       const t = this.ctx.currentTime;
 
-      // Golden God Laser Fanfare
       const freqs = [440, 554.37, 659.25, 880, 1108.73, 1318.51, 1760];
       freqs.forEach((f, i) => {
         const osc = this.ctx.createOscillator();
