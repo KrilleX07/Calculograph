@@ -13,40 +13,41 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
     <div className="sticky top-0 z-50 select-none">
       
       {/* Primary Topbar: Vintage Paper Ledger */}
-      <header className="w-full bg-[#efe7d6] border-b-4 border-[#3c2c1c] text-[#3c2c1c] py-3.5 px-4 sm:px-8">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+      <header className="w-full bg-[#efe7d6] border-b-4 border-[#3c2c1c] text-[#3c2c1c] py-2.5 sm:py-3.5 px-3 sm:px-8">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           
           {/* Brand Logo: Pure Bold Typography */}
           <a
             href="/"
             onClick={() => sound.playClick()}
-            className="font-mono font-extrabold text-xl sm:text-2xl tracking-[4px] uppercase text-[#3c2c1c] hover:opacity-85 transition-opacity"
+            className="font-mono font-extrabold text-base sm:text-2xl tracking-[2.5px] sm:tracking-[4px] uppercase text-[#3c2c1c] hover:opacity-85 transition-opacity whitespace-nowrap"
           >
             CALCULOGRAPH
           </a>
 
           {/* Right Action Tools */}
-          <div className="flex items-center gap-3 sm:gap-4 font-mono text-xs font-bold">
+          <div className="flex items-center gap-2 sm:gap-3 font-mono text-xs font-bold flex-shrink-0">
             
             {/* Audio Toggle Button */}
             <button
               type="button"
               onClick={toggleSound}
               title={isAudioOn ? 'Mute acoustic audio' : 'Enable audio'}
-              className="p-2 rounded border-2 border-[#3c2c1c] bg-[#e3d8c0] hover:bg-[#d6c9ab] text-[#3c2c1c] transition flex items-center justify-center shadow-[2px_3px_rgba(0,0,0,0.25)] active:translate-y-0.5 cursor-pointer"
+              className="w-8 h-8 sm:w-auto sm:h-auto sm:p-2 rounded border-2 border-[#3c2c1c] bg-[#e3d8c0] hover:bg-[#d6c9ab] text-[#3c2c1c] transition flex items-center justify-center shadow-[2px_3px_rgba(0,0,0,0.25)] active:translate-y-0.5 cursor-pointer flex-shrink-0"
             >
-              {isAudioOn ? <Volume2 size={16} className="text-[#c05810]" /> : <VolumeX size={16} />}
+              {isAudioOn ? <Volume2 size={15} className="text-[#c05810]" /> : <VolumeX size={15} />}
             </button>
 
-            {/* Twitter Link in Calctrons button style */}
+            {/* Twitter Link: Compact on mobile, expanded on desktop */}
             <a
               href="https://x.com/Calculograph"
               target="_blank"
               rel="noreferrer"
               onClick={() => sound.playClick()}
-              className="calctrons-btn py-2 px-3 sm:px-4 text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer"
+              className="calctrons-btn h-8 sm:h-auto py-1.5 sm:py-2 px-2.5 sm:px-4 text-[11px] sm:text-xs flex items-center justify-center gap-1.5 cursor-pointer flex-shrink-0 whitespace-nowrap shadow-[2px_3px_rgba(0,0,0,0.25)]"
             >
-              <span>𝕏 @Calculograph</span>
+              <span className="font-extrabold text-xs">𝕏</span>
+              <span className="hidden sm:inline">@Calculograph</span>
             </a>
 
           </div>
