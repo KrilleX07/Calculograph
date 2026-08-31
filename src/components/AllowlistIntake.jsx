@@ -26,6 +26,7 @@ export default function AllowlistIntake() {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [completedData, setCompletedData] = useState(null);
+  const [maxStepReached, setMaxStepReached] = useState(1);
 
   // Debounced real Twitter avatar lookup
   useEffect(() => {
@@ -55,17 +56,15 @@ export default function AllowlistIntake() {
           setCompletedData(parsed);
           setTwitterUsername(parsed.twitter);
           setWalletAddress(parsed.wallet);
+          setMaxStepReached(3);
           setMissions({
             follow: { completed: true, countdown: 0 },
             repost: { completed: true, countdown: 0 },
             tag: { completed: true, countdown: 0 },
           });
-          setCurrentStep(4);
         }
       }
-    } catch (e) {
-      console.warn('LocalStorage restore notice:', e);
-    }
+    } catch (e) {}
   }, []);
 
   // Auto-read ?ref=XYZ parameter from URL on load
@@ -84,34 +83,51 @@ export default function AllowlistIntake() {
     }
   }, []);
 
-  // Countdown timer handler for missions
+  // Countdown timer effect
+  useEffect(() => {
+    const activeKey = Object.keys(missions).find((k) => missions[k].countdown > 0);
+    if (!activeKey) return;
+
+    const interval = setInterval(() => {
+      setMissions((prev) => {
+        const currentCount = prev[activeKey].countdown;
+        if (currentCount <= 1) {
+          sound.playSuccess();
+          return {
+            ...prev,
+            [activeKey]: { completed: true, countdown: 0 },
+          };
+        }
+        return {
+          ...prev,
+          [activeKey]: { ...prev[activeKey], countdown: currentCount - 1 },
+        };
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [missions]);
+
+  // Handle Mission Click
   const handleMissionClick = (missionKey, externalUrl) => {
+    if (missions[missionKey].completed || missions[missionKey].countdown > 0) return;
+
     sound.playClick();
     window.open(externalUrl, '_blank', 'noopener,noreferrer');
 
-    if (missions[missionKey].completed) return;
-
-    let count = 5;
     setMissions((prev) => ({
       ...prev,
-      [missionKey]: { ...prev[missionKey], countdown: count },
+      [missionKey]: { ...prev[missionKey], countdown: 3 },
     }));
 
-    const interval = setInterval(() => {
-      count -= 1;
-      if (count <= 0) {
-        clearInterval(interval);
-        sound.playCash();
-        setMissions((prev) => ({
+    setTimeout(() => {
+      setMissions((prev) => {
+        sound.playSuccess();
+        return {
           ...prev,
           [missionKey]: { completed: true, countdown: 0 },
-        }));
-      } else {
-        setMissions((prev) => ({
-          ...prev,
-          [missionKey]: { ...prev[missionKey], countdown: count },
-        }));
-      }
+        };
+      });
     }, 1000);
   };
 
@@ -148,6 +164,7 @@ export default function AllowlistIntake() {
     }
 
     try { sound.playSuccess(); } catch (err) {}
+    setMaxStepReached((prev) => Math.max(prev, 2));
     setCurrentStep(2);
   };
 
@@ -159,6 +176,7 @@ export default function AllowlistIntake() {
     }
     try { sound.playSuccess(); } catch (err) {}
     setErrorMsg('');
+    setMaxStepReached((prev) => Math.max(prev, 3));
     setCurrentStep(3);
   };
 
@@ -299,22 +317,22 @@ export default function AllowlistIntake() {
           {completedData ? '01 IDENTITY ✓' : '01 IDENTITY'}
         </button>
 
-        {/* Tab 2: Strictly locked until Step 1 identity validation passes */}
+        {/* Tab 2: Unlocked and styled cream whenever Step 1 has been cleared */}
         <button
           type="button"
           onClick={async () => {
             if (completedData) return;
-            if (currentStep === 1) {
-              await handleStep1Submit();
-            } else if (currentStep > 2) {
+            if (maxStepReached >= 2 || allMissionsDone) {
               sound.playClick();
               setCurrentStep(2);
+            } else if (currentStep === 1) {
+              await handleStep1Submit();
             }
           }}
           className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
             completedData || currentStep === 2
               ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
-              : currentStep > 2
+              : maxStepReached >= 2 || allMissionsDone
               ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
               : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-50'
           }`}
@@ -322,12 +340,12 @@ export default function AllowlistIntake() {
           {completedData ? '02 MISSIONS ✓' : '02 MISSIONS'}
         </button>
 
-        {/* Tab 3: Strictly locked until 3/3 missions are cleared */}
+        {/* Tab 3: Unlocked and styled cream when missions are cleared */}
         <button
           type="button"
-          disabled={!completedData && !allMissionsDone}
+          disabled={!completedData && !allMissionsDone && maxStepReached < 3}
           onClick={() => {
-            if (completedData || allMissionsDone) {
+            if (completedData || allMissionsDone || maxStepReached >= 3) {
               sound.playClick();
               setCurrentStep(3);
             }
@@ -335,7 +353,7 @@ export default function AllowlistIntake() {
           className={`py-2.5 px-1 border-2 transition-all uppercase tracking-wider ${
             completedData || currentStep === 3
               ? 'bg-[#c05810] text-[#efe7d6] border-[#3c2c1c] shadow-[2px_2px_rgba(0,0,0,0.3)]'
-              : allMissionsDone
+              : allMissionsDone || maxStepReached >= 3
               ? 'bg-[#e3d8c0] text-[#3c2c1c] border-[#3c2c1c] cursor-pointer'
               : 'border-transparent text-[#6d5b44] cursor-not-allowed opacity-50'
           }`}
