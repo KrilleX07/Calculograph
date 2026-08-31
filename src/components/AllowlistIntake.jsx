@@ -262,7 +262,7 @@ export default function AllowlistIntake() {
   };
 
   return (
-    <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto space-y-8 font-mono">
+    <div className="py-10 px-4 sm:px-6 max-w-[640px] w-full mx-auto space-y-8 font-mono">
       
       {/* Section Header */}
       <div className="text-center space-y-2">
@@ -345,114 +345,127 @@ export default function AllowlistIntake() {
 
       </div>
 
-      {/* Main Form Container: Calctrons Vintage Paper Panel */}
-      <div className="calctrons-panel p-6 sm:p-8 space-y-6">
+      {/* Main Form Container: Calctrons Vintage Paper Panel with Fixed Height */}
+      <div className="calctrons-panel p-6 sm:p-8 min-h-[500px] flex flex-col justify-between">
         
         {/* ===================== STEP 1: 01 IDENTITY ===================== */}
         {currentStep === 1 && (
-          <form onSubmit={handleStep1Submit} className="space-y-6 animate-in fade-in duration-150">
+          <form onSubmit={handleStep1Submit} className="space-y-4 animate-in fade-in duration-150 flex-1 flex flex-col justify-between">
             
-            <div className="border-b-2 border-[#d6c9ab] pb-3 flex justify-between items-baseline">
-              <span className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#c05810]">
-                DESK CLEARANCE FORM
-              </span>
-              <span className="text-[10px] text-[#8d7c66] uppercase tracking-wider">
-                ENTRY REQUIRED
-              </span>
-            </div>
-
-            {/* X Username Field */}
-            <div className="space-y-2">
-              <label className="block text-xs font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
-                X USERNAME (TWITTER)
-              </label>
-              <input
-                type="text"
-                required
-                value={twitterUsername}
-                onChange={(e) => {
-                  const latinOnly = e.target.value.replace(/[^a-zA-Z0-9_@]/g, '');
-                  setTwitterUsername(latinOnly);
-                  if (errorMsg) setErrorMsg('');
-                }}
-                placeholder="@username"
-                className="w-full px-4 py-3.5 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-sm font-bold focus:outline-none focus:bg-[#efe7d6] focus:border-[#c05810] transition placeholder:text-[#8d7c66]"
-              />
-            </div>
-
-            {/* Live Twitter Avatar Preview Card */}
-            {twitterUsername.replace('@', '').length >= 2 && (
-              <div className="p-3 bg-[#e3d8c0] border-2 border-[#3c2c1c] flex items-center gap-3 animate-in fade-in duration-150 shadow-[2px_3px_rgba(0,0,0,0.2)]">
-                <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-[#3c2c1c] flex-shrink-0 bg-[#d6c9ab] flex items-center justify-center">
-                  {avatarLoading ? (
-                    <Loader2 size={16} className="text-[#c05810] animate-spin" />
-                  ) : avatarUrl ? (
-                    <img
-                      src={avatarUrl}
-                      alt={twitterUsername}
-                      onError={() => setAvatarUrl(null)}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <User size={18} className="text-[#6d5b44]" />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold text-[#3c2c1c] truncate">
-                      {twitterUsername.startsWith('@') ? twitterUsername : `@${twitterUsername}`}
-                    </span>
-                    <span className="px-1.5 py-0.5 border border-[#1f6b30] bg-[#d6f8dc] text-[#1f6b30] text-[9px] font-bold uppercase">
-                      ACTIVE
-                    </span>
-                  </div>
-                  <div className="text-[11px] text-[#6d5b44]">
-                    Verified Operator Account
-                  </div>
-                </div>
+            <div className="space-y-3.5">
+              <div className="border-b-2 border-[#d6c9ab] pb-2.5 flex justify-between items-baseline">
+                <span className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#c05810]">
+                  DESK CLEARANCE FORM
+                </span>
+                <span className="text-[10px] text-[#8d7c66] uppercase tracking-wider">
+                  ENTRY REQUIRED
+                </span>
               </div>
-            )}
 
-            {/* Invite Code Field (Optional) */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
+              {/* X Username Field */}
+              <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
-                  INVITE CODE <span className="text-[#8d7c66] font-normal text-[10px]">(OPTIONAL)</span>
+                  X USERNAME (TWITTER)
                 </label>
-                {inviteCodeStatus?.valid && inviteCode.trim() && (
-                  <span className="text-[10px] font-bold text-[#1f6b30] flex items-center gap-1">
-                    <Check size={12} /> VALID CODE
-                  </span>
+                <input
+                  type="text"
+                  required
+                  value={twitterUsername}
+                  onChange={(e) => {
+                    const latinOnly = e.target.value.replace(/[^a-zA-Z0-9_@]/g, '');
+                    setTwitterUsername(latinOnly);
+                    if (errorMsg) setErrorMsg('');
+                  }}
+                  placeholder="@username"
+                  className="w-full px-4 py-3 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-sm font-bold focus:outline-none focus:bg-[#efe7d6] focus:border-[#c05810] transition placeholder:text-[#8d7c66]"
+                />
+              </div>
+
+              {/* Live Twitter Avatar Preview Card (Slot) */}
+              <div className="min-h-[56px] flex items-center">
+                {twitterUsername.replace('@', '').length >= 2 ? (
+                  <div className="w-full p-2.5 bg-[#e3d8c0] border-2 border-[#3c2c1c] flex items-center gap-3 shadow-[2px_2px_rgba(0,0,0,0.15)] animate-in fade-in duration-150">
+                    <div className="relative w-9 h-9 rounded-full overflow-hidden border-2 border-[#3c2c1c] flex-shrink-0 bg-[#d6c9ab] flex items-center justify-center">
+                      {avatarLoading ? (
+                        <Loader2 size={15} className="text-[#c05810] animate-spin" />
+                      ) : avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt={twitterUsername}
+                          onError={() => setAvatarUrl(null)}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <User size={16} className="text-[#6d5b44]" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-bold text-[#3c2c1c] truncate">
+                          {twitterUsername.startsWith('@') ? twitterUsername : `@${twitterUsername}`}
+                        </span>
+                        <span className="px-1.5 py-0.5 border border-[#1f6b30] bg-[#d6f8dc] text-[#1f6b30] text-[8px] font-bold uppercase">
+                          ACTIVE
+                        </span>
+                      </div>
+                      <div className="text-[10px] text-[#6d5b44]">
+                        Verified Operator Account
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full py-1 text-[11px] text-[#8d7c66] italic">
+                    Type your Latin X handle to preview verification.
+                  </div>
                 )}
               </div>
-              <input
-                type="text"
-                value={inviteCode}
-                onChange={(e) => {
-                  const latinCode = e.target.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '');
-                  setInviteCode(latinCode);
-                  setInviteCodeStatus(null);
-                  if (errorMsg) setErrorMsg('');
-                }}
-                placeholder="OPTIONAL (E.G. GENESIS, CALC)"
-                className="w-full px-4 py-3.5 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-sm font-bold focus:outline-none focus:bg-[#efe7d6] focus:border-[#c05810] transition placeholder:text-[#8d7c66] uppercase tracking-wider"
-              />
+
+              {/* Invite Code Field (Optional) */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center">
+                  <label className="block text-xs font-bold text-[#3c2c1c] uppercase tracking-[1.5px]">
+                    INVITE CODE <span className="text-[#8d7c66] font-normal text-[10px]">(OPTIONAL)</span>
+                  </label>
+                  {inviteCodeStatus?.valid && inviteCode.trim() && (
+                    <span className="text-[10px] font-bold text-[#1f6b30] flex items-center gap-1">
+                      <Check size={12} /> VALID CODE
+                    </span>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  value={inviteCode}
+                  onChange={(e) => {
+                    const latinCode = e.target.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+                    setInviteCode(latinCode);
+                    setInviteCodeStatus(null);
+                    if (errorMsg) setErrorMsg('');
+                  }}
+                  placeholder="OPTIONAL (E.G. GENESIS, CALC)"
+                  className="w-full px-4 py-3 bg-[#e3d8c0] border-2 border-[#3c2c1c] text-[#3c2c1c] font-mono text-sm font-bold focus:outline-none focus:bg-[#efe7d6] focus:border-[#c05810] transition placeholder:text-[#8d7c66] uppercase tracking-wider"
+                />
+              </div>
             </div>
 
-            {errorMsg && (
-              <div className="p-3 bg-[#fee2e2] border-2 border-[#dc2626] text-[#991b1b] text-xs font-bold flex items-center gap-2 animate-in fade-in duration-100">
-                <AlertCircle size={15} className="flex-shrink-0" />
-                <span>{errorMsg}</span>
+            {/* Bottom Actions with fixed reserved error slot */}
+            <div className="space-y-2.5 pt-1">
+              <div className="min-h-[44px] flex items-center">
+                {errorMsg ? (
+                  <div className="w-full p-2.5 bg-[#fee2e2] border-2 border-[#dc2626] text-[#991b1b] text-xs font-bold flex items-center gap-2 animate-in fade-in duration-100">
+                    <AlertCircle size={15} className="flex-shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                ) : null}
               </div>
-            )}
 
-            {/* Action Button */}
-            <button
-              type="submit"
-              className="calctrons-btn w-full py-4 px-6 text-sm flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>ENTER THE PROTOCOL &rarr;</span>
-            </button>
+              {/* Action Button */}
+              <button
+                type="submit"
+                className="calctrons-btn w-full py-3.5 px-6 text-sm flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>ENTER THE PROTOCOL &rarr;</span>
+              </button>
+            </div>
           </form>
         )}
 
