@@ -118,8 +118,8 @@ export default function AllowlistIntake() {
   const completedMissionsCount = Object.values(missions).filter((m) => m.completed).length;
   const allMissionsDone = completedMissionsCount === 3;
 
-  // Step 1: Validate identity and immediately advance to missions
-  const handleStep1Submit = (e) => {
+  // Step 1: Validate identity, check Twitter duplicate and advance to missions
+  const handleStep1Submit = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
     setErrorMsg('');
     try { sound.playClick(); } catch (err) {}
@@ -137,6 +137,13 @@ export default function AllowlistIntake() {
     const handleBody = cleanTwitter.slice(1);
     if (!/^[a-zA-Z0-9_]{1,30}$/.test(handleBody)) {
       setErrorMsg('X (Twitter) handle must only contain Latin letters (a-z, A-Z), numbers, and underscores (_).');
+      return;
+    }
+
+    // Check if this Twitter account is already registered in DB
+    const isTwitterTaken = await checkTwitterExists(cleanTwitter);
+    if (isTwitterTaken) {
+      setErrorMsg(`The X account ${cleanTwitter} is already registered on the Allowlist!`);
       return;
     }
 
@@ -170,10 +177,18 @@ export default function AllowlistIntake() {
 
     setSubmitting(true);
 
+    // Strict duplicate checks
+    const isTwitterTaken = await checkTwitterExists(twitterUsername);
+    if (isTwitterTaken) {
+      setSubmitting(false);
+      setErrorMsg(`The X account ${twitterUsername} is already registered on the Allowlist!`);
+      return;
+    }
+
     const isWalletTaken = await checkWalletExists(cleanWallet);
     if (isWalletTaken) {
       setSubmitting(false);
-      setErrorMsg(`The wallet ${cleanWallet.slice(0, 6)}...${cleanWallet.slice(-4)} is already registered on the ledger!`);
+      setErrorMsg(`The wallet ${cleanWallet.slice(0, 6)}...${cleanWallet.slice(-4)} is already registered on the Allowlist!`);
       return;
     }
 

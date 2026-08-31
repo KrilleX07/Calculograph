@@ -47,13 +47,14 @@ export async function getWhitelistCount() {
  */
 export async function checkTwitterExists(twitter) {
   if (!twitter || !twitter.trim()) return false;
-  const clean = twitter.startsWith('@') ? twitter.trim() : `@${twitter.trim()}`;
+  const raw = twitter.trim().replace(/^@+/, '');
+  const withAt = `@${raw}`;
 
   try {
     const { data, error } = await supabase
       .from('whitelist')
       .select('id, twitter_handle')
-      .ilike('twitter_handle', clean)
+      .or(`twitter_handle.ilike.${withAt},twitter_handle.ilike.${raw}`)
       .limit(1);
 
     if (!error && data && data.length > 0) {
