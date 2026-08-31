@@ -16,13 +16,22 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
       <header className="w-full bg-[#efe7d6] border-b-4 border-[#3c2c1c] text-[#3c2c1c] py-3.5 px-4 sm:px-8">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           
-          {/* Brand Logo */}
+          {/* Brand Logo: Unified Precision Mechanical Typography */}
           <a
             href="/"
             onClick={() => sound.playClick()}
-            className="flex items-center gap-2 font-mono font-bold text-lg sm:text-xl tracking-[3px] sm:tracking-[4px] uppercase text-[#3c2c1c] hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2.5 font-mono font-bold text-lg sm:text-xl tracking-[3px] sm:tracking-[4px] uppercase text-[#3c2c1c] hover:opacity-85 transition-opacity group"
           >
-            <span>CALC<span className="text-[#c05810]">ULOGRAPH</span></span>
+            {/* Precision Mechanical Chronometer Emblem Icon */}
+            <div className="w-8 h-8 rounded border-2 border-[#3c2c1c] bg-[#c05810] text-[#efe7d6] flex items-center justify-center shadow-[2px_2px_rgba(0,0,0,0.3)] group-hover:bg-[#d46313] transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <polyline points="12 6 12 12 16 14" />
+                <path d="M12 3V1" />
+                <path d="M9 1h6" />
+              </svg>
+            </div>
+            <span>CALCULOGRAPH</span>
           </a>
 
           {/* Right Action Tools */}
@@ -33,7 +42,7 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
               type="button"
               onClick={toggleSound}
               title={isAudioOn ? 'Mute acoustic audio' : 'Enable audio'}
-              className="p-2 rounded border-2 border-[#3c2c1c] bg-[#e3d8c0] hover:bg-[#d6c9ab] text-[#3c2c1c] transition flex items-center justify-center shadow-[2px_3px_rgba(0,0,0,0.25)] active:translate-y-0.5"
+              className="p-2 rounded border-2 border-[#3c2c1c] bg-[#e3d8c0] hover:bg-[#d6c9ab] text-[#3c2c1c] transition flex items-center justify-center shadow-[2px_3px_rgba(0,0,0,0.25)] active:translate-y-0.5 cursor-pointer"
             >
               {isAudioOn ? <Volume2 size={16} className="text-[#c05810]" /> : <VolumeX size={16} />}
             </button>
@@ -44,7 +53,7 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
               target="_blank"
               rel="noreferrer"
               onClick={() => sound.playClick()}
-              className="calctrons-btn py-2 px-3 sm:px-4 text-[11px] sm:text-xs flex items-center gap-1.5"
+              className="calctrons-btn py-2 px-3 sm:px-4 text-[11px] sm:text-xs flex items-center gap-1.5 cursor-pointer"
             >
               <span>𝕏 @Calculograph</span>
             </a>
@@ -55,11 +64,15 @@ export default function Navbar({ isAudioOn, setIsAudioOn }) {
       </header>
 
       {/* Secondary Statusbar: Dark Ink Terminal Line */}
-      <div className="w-full bg-[#3c2c1c] border-b-2 border-black text-[#e3d8c0] py-2 px-4 font-mono text-[10px] sm:text-[11px] font-bold tracking-[1.5px] uppercase">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-3 overflow-x-auto whitespace-nowrap scrollbar-none">
-          <div className="flex items-center gap-2">
-            <span className="dot-phosphor"></span>
-            <span className="text-[#46e35f]">OPERATIONAL</span>
+      <div className="w-full bg-[#2a1e13] border-b-2 border-[#17130e] text-[#e3d8c0] py-2 px-4 font-mono text-[10px] sm:text-[11px] font-bold tracking-[1.5px] uppercase">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-3 overflow-x-auto whitespace-nowrap scrollbar-none pl-1">
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            {/* Glowing Phosphor Dot with dedicated padding so it's never clipped on left */}
+            <span className="relative flex h-3 w-3 items-center justify-center">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#46e35f] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#46e35f] shadow-[0_0_6px_#46e35f]"></span>
+            </span>
+            <span className="text-[#46e35f] tracking-[1.5px]">OPERATIONAL</span>
           </div>
           <span className="text-[#8d7c66]">|</span>
           <span className="hidden sm:inline">3,333 CALCULATING MACHINES</span>

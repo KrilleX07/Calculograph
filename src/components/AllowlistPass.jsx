@@ -133,20 +133,28 @@ export default function AllowlistPass({ data, onReset }) {
       </div>
 
       {/* ===================== VINTAGE CALCTRON PHYSICAL CERTIFICATE ===================== */}
-      <div className="p-1 rounded-sm bg-[#17130e]">
+      <div className="p-1 rounded-sm bg-[#0d0b08]">
         <div
           ref={passRef}
-          className="p-7 sm:p-8 bg-[#efe7d6] border-4 border-[#3c2c1c] shadow-[8px_10px_rgba(0,0,0,0.5)] relative space-y-6 select-none overflow-hidden"
+          className="p-7 sm:p-8 bg-[#1a140d] border-4 border-[#d6c9ab] shadow-[8px_10px_rgba(0,0,0,0.65)] relative space-y-6 select-none overflow-hidden text-[#efe7d6]"
           style={{
-            boxShadow: 'inset 0 0 0 5px #efe7d6, 8px 10px rgba(0,0,0,0.55)',
+            boxShadow: 'inset 0 0 0 4px #1a140d, inset 0 0 0 6px #d6c9ab, 8px 10px rgba(0,0,0,0.6)',
           }}
         >
           {/* Top Pass Header */}
-          <div className="flex justify-between items-baseline border-b-2 border-[#3c2c1c] pb-3.5">
-            <span className="font-bold text-xs uppercase tracking-[3px] text-[#3c2c1c]">
-              CALC<span className="text-[#c05810]">ULOGRAPH</span>
-            </span>
-            <span className="text-[10px] font-bold text-[#6d5b44] uppercase tracking-[1.5px]">
+          <div className="flex justify-between items-center border-b-2 border-[#3c2c1c] pb-3.5">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded border border-[#d6c9ab] bg-[#c05810] text-[#efe7d6] flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </div>
+              <span className="font-bold text-xs uppercase tracking-[3px] text-[#efe7d6]">
+                CALCULOGRAPH
+              </span>
+            </div>
+            <span className="text-[10px] font-bold text-[#f2c14b] uppercase tracking-[1.5px] border border-[#f2c14b]/30 px-1.5 py-0.5 rounded bg-[#f2c14b]/10">
               CHRONO PASS &bull; PH.1
             </span>
           </div>
@@ -154,7 +162,7 @@ export default function AllowlistPass({ data, onReset }) {
           {/* Avatar Section */}
           <div className="flex flex-col items-center text-center space-y-3 pt-1">
             <div className="relative">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded border-4 border-[#3c2c1c] bg-[#e3d8c0] shadow-[4px_5px_rgba(0,0,0,0.3)] overflow-hidden flex items-center justify-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded border-4 border-[#d6c9ab] bg-[#2a1e13] shadow-[4px_5px_rgba(0,0,0,0.5)] overflow-hidden flex items-center justify-center">
                 <img
                   src={data.avatarUrl || `/favicon.png`}
                   alt={cleanTwitter}
@@ -167,16 +175,16 @@ export default function AllowlistPass({ data, onReset }) {
                 />
               </div>
               {/* Badge */}
-              <div className="absolute -bottom-2 -right-2 w-7 h-7 bg-[#c05810] border-2 border-[#3c2c1c] text-[#efe7d6] flex items-center justify-center font-bold text-xs shadow-md">
+              <div className="absolute -bottom-2 -right-2 w-7 h-7 bg-[#c05810] border-2 border-[#d6c9ab] text-[#efe7d6] flex items-center justify-center font-bold text-xs shadow-md">
                 {firstLetter}
               </div>
             </div>
 
-            <div className="space-y-0.5">
-              <div className="text-xl sm:text-2xl font-bold text-[#3c2c1c] tracking-tight">
+            <div className="space-y-1">
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#efe7d6] tracking-tight">
                 {cleanTwitter}
               </div>
-              <div className="text-[9px] font-bold text-[#c05810] uppercase tracking-[2px]">
+              <div className="text-[10px] font-bold text-[#c05810] uppercase tracking-[2.5px]">
                 VERIFIED MACHINE OPERATOR
               </div>
             </div>
@@ -185,7 +193,7 @@ export default function AllowlistPass({ data, onReset }) {
           {/* Dark Mechanical Highlight Box: Spot # + Date */}
           <div className="p-4 rounded bg-[#0d0b08] border-2 border-[#3c2c1c] flex justify-between items-center text-[#efe7d6] shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
             <div className="space-y-0.5">
-              <span className="block text-[9px] font-bold text-[#8d7c66] uppercase tracking-[1.5px]">
+              <span className="block text-[9px] font-bold text-[#a89782] uppercase tracking-[1.5px]">
                 CALCULOGRAPH SPOT
               </span>
               <span className="text-2xl sm:text-3xl font-extrabold text-[#46e35f] tracking-tight text-shadow">
@@ -194,7 +202,7 @@ export default function AllowlistPass({ data, onReset }) {
             </div>
 
             <div className="space-y-0.5 text-right">
-              <span className="block text-[9px] font-bold text-[#8d7c66] uppercase tracking-[1.5px]">
+              <span className="block text-[9px] font-bold text-[#a89782] uppercase tracking-[1.5px]">
                 DATE RECORDED
               </span>
               <span className="text-xs sm:text-sm font-bold text-[#f2c14b]">
@@ -204,17 +212,17 @@ export default function AllowlistPass({ data, onReset }) {
           </div>
 
           {/* Wallet Details */}
-          <div className="space-y-1 border-t-2 border-[#d6c9ab] pt-3">
-            <span className="block text-[9px] font-bold text-[#6d5b44] uppercase tracking-[1.5px]">
+          <div className="space-y-1 border-t-2 border-[#3c2c1c] pt-3">
+            <span className="block text-[9px] font-bold text-[#a89782] uppercase tracking-[1.5px]">
               ASSIGNED EVM WALLET
             </span>
-            <span className="text-sm font-bold text-[#3c2c1c] tracking-wider">
+            <span className="text-base font-bold text-[#efe7d6] tracking-wider font-mono">
               {shortenedWallet}
             </span>
           </div>
 
           {/* Vintage Punchcard Waveform */}
-          <div className="py-1 flex items-center justify-between gap-1 h-10 border-y-2 border-[#d6c9ab]">
+          <div className="py-1 flex items-center justify-between gap-1 h-10 border-y-2 border-[#3c2c1c]">
             {barcodePills.map((pill, i) => (
               <div
                 key={i}
@@ -224,9 +232,9 @@ export default function AllowlistPass({ data, onReset }) {
           </div>
 
           {/* Card Footer */}
-          <div className="flex justify-between items-center text-[9px] font-bold text-[#6d5b44] uppercase tracking-wider">
+          <div className="flex justify-between items-center text-[10px] font-bold text-[#a89782] uppercase tracking-wider">
             <span>ROBINHOOD CHAIN &bull; 3,333 ED.</span>
-            <span className="text-[#c05810]">X.COM/CALCULOGRAPH</span>
+            <span className="text-[#c05810] font-bold">X.COM/CALCULOGRAPH</span>
           </div>
 
         </div>
