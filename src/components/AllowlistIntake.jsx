@@ -83,51 +83,34 @@ export default function AllowlistIntake() {
     }
   }, []);
 
-  // Countdown timer effect
-  useEffect(() => {
-    const activeKey = Object.keys(missions).find((k) => missions[k].countdown > 0);
-    if (!activeKey) return;
-
-    const interval = setInterval(() => {
-      setMissions((prev) => {
-        const currentCount = prev[activeKey].countdown;
-        if (currentCount <= 1) {
-          sound.playSuccess();
-          return {
-            ...prev,
-            [activeKey]: { completed: true, countdown: 0 },
-          };
-        }
-        return {
-          ...prev,
-          [activeKey]: { ...prev[activeKey], countdown: currentCount - 1 },
-        };
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [missions]);
-
-  // Handle Mission Click
+  // Handle Mission Click with 5-second countdown timer
   const handleMissionClick = (missionKey, externalUrl) => {
     if (missions[missionKey].completed || missions[missionKey].countdown > 0) return;
 
     sound.playClick();
     window.open(externalUrl, '_blank', 'noopener,noreferrer');
 
+    let count = 5;
     setMissions((prev) => ({
       ...prev,
-      [missionKey]: { ...prev[missionKey], countdown: 3 },
+      [missionKey]: { ...prev[missionKey], countdown: count },
     }));
 
-    setTimeout(() => {
-      setMissions((prev) => {
-        sound.playSuccess();
-        return {
+    const interval = setInterval(() => {
+      count -= 1;
+      if (count <= 0) {
+        clearInterval(interval);
+        try { sound.playSuccess(); } catch (err) {}
+        setMissions((prev) => ({
           ...prev,
           [missionKey]: { completed: true, countdown: 0 },
-        };
-      });
+        }));
+      } else {
+        setMissions((prev) => ({
+          ...prev,
+          [missionKey]: { ...prev[missionKey], countdown: count },
+        }));
+      }
     }, 1000);
   };
 
